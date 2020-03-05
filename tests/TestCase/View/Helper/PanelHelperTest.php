@@ -1,5 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE file
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright   Copyright (c) Mikaël Capelle (https://typename.fr)
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ * @link        https://holt59.github.io/cakephp3-bootstrap-helpers/
+ */
+
 namespace Bootstrap\Test\TestCase\View\Helper;
 
 use Bootstrap\View\Helper\PanelHelper;
@@ -7,7 +19,9 @@ use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 
-class PanelHelperTest extends TestCase {
+
+class PanelHelperTest extends TestCase
+{
 
     /**
      * Instance of PanelHelper.
@@ -21,7 +35,8 @@ class PanelHelperTest extends TestCase {
      *
      * @return void
      */
-    public function setUp() {
+    public function setUp(): void
+    {
         parent::setUp();
         $view = new View();
         $view->loadHelper('Html', [
@@ -31,11 +46,13 @@ class PanelHelperTest extends TestCase {
         Configure::write('debug', true);
     }
 
-    protected function reset() {
+    protected function reset()
+    {
         $this->panel->end();
     }
 
-    public function testCreate() {
+    public function testCreate()
+    {
         $title = "My Modal";
         $id = "myModalId";
         // Test standard create with title
@@ -85,9 +102,10 @@ class PanelHelperTest extends TestCase {
         $this->reset();
     }
 
-    public function testHeader() {
+    public function testHeader()
+    {
         $content = 'Header';
-        $htmlContent = '<b>'.$content.'</b>';
+        $htmlContent = '<b>' . $content . '</b>';
         $extraclass = 'my-extra-class';
 
         // Simple test
@@ -243,7 +261,8 @@ class PanelHelperTest extends TestCase {
         $this->reset();
     }
 
-    public function testFooter() {
+    public function testFooter()
+    {
         $content = 'Footer';
         $extraclass = 'my-extra-class';
 
@@ -252,16 +271,16 @@ class PanelHelperTest extends TestCase {
         $result = $this->panel->footer($content, ['class' => $extraclass]);
         $this->assertHtml([
             ['div' => [
-                'class' => 'panel-footer '.$extraclass
+                'class' => 'panel-footer ' . $extraclass
             ]],
             $content,
             '/div'
         ], $result);
         $this->reset();
-
     }
 
-    public function testGroup() {
+    public function testGroup()
+    {
 
         $panelHeading = 'This is a panel heading';
         $panelContent = 'A bit of HTML code inside!';
@@ -296,7 +315,7 @@ class PanelHelperTest extends TestCase {
                 ['div' => [
                     'class' => 'panel-heading',
                     'role'  => 'tab',
-                    'id'    => 'heading-'.$i
+                    'id'    => 'heading-' . $i
                 ]],
                 ['h4' => [
                     'class' => 'panel-title'
@@ -304,9 +323,9 @@ class PanelHelperTest extends TestCase {
                 ['a' => [
                     'role'          => 'button',
                     'data-toggle'   => 'collapse',
-                    'href'          => '#collapse-'.$i,
+                    'href'          => '#collapse-' . $i,
                     'aria-expanded' => $i ? 'false' : 'true',
-                    'aria-controls' => 'collapse-'.$i,
+                    'aria-controls' => 'collapse-' . $i,
                     'data-parent'   => '#panelGroup-1'
                 ]],
                 $panelHeading,
@@ -314,10 +333,10 @@ class PanelHelperTest extends TestCase {
                 '/h4',
                 '/div',
                 ['div' => [
-                    'class'           => 'panel-collapse collapse'.($i ? '' : ' in'),
+                    'class'           => 'panel-collapse collapse' . ($i ? '' : ' in'),
                     'role'            => 'tabpanel',
-                    'aria-labelledby' => 'heading-'.$i,
-                    'id'              => 'collapse-'.$i
+                    'aria-labelledby' => 'heading-' . $i,
+                    'id'              => 'collapse-' . $i
                 ]],
                 ['div' => [
                     'class' => 'panel-body'
@@ -355,7 +374,8 @@ class PanelHelperTest extends TestCase {
         $this->assertHtml($expected, $result, false);
     }
 
-    public function testPanelGroupInsidePanel() {
+    public function testPanelGroupInsidePanel()
+    {
 
         $panelHeading = 'This is a panel heading';
         $panelContent = 'A bit of HTML code inside!';
@@ -402,7 +422,7 @@ class PanelHelperTest extends TestCase {
                 ['div' => [
                     'class' => 'panel-heading',
                     'role'  => 'tab',
-                    'id'    => 'heading-'.$i
+                    'id'    => 'heading-' . $i
                 ]],
                 ['h4' => [
                     'class' => 'panel-title'
@@ -410,9 +430,9 @@ class PanelHelperTest extends TestCase {
                 ['a' => [
                     'role'          => 'button',
                     'data-toggle'   => 'collapse',
-                    'href'          => '#collapse-'.$i,
+                    'href'          => '#collapse-' . $i,
                     'aria-expanded' => ($i > 1) ? 'false' : 'true',
-                    'aria-controls' => 'collapse-'.$i,
+                    'aria-controls' => 'collapse-' . $i,
                     'data-parent'   => '#panelGroup-1'
                 ]],
                 $panelHeading,
@@ -420,10 +440,10 @@ class PanelHelperTest extends TestCase {
                 '/h4',
                 '/div',
                 ['div' => [
-                    'class'           => 'panel-collapse collapse'.($i > 1 ? '' : ' in'),
+                    'class'           => 'panel-collapse collapse' . ($i > 1 ? '' : ' in'),
                     'role'            => 'tabpanel',
-                    'aria-labelledby' => 'heading-'.$i,
-                    'id'              => 'collapse-'.$i
+                    'aria-labelledby' => 'heading-' . $i,
+                    'id'              => 'collapse-' . $i
                 ]],
                 ['div' => [
                     'class' => 'panel-body'
@@ -438,7 +458,5 @@ class PanelHelperTest extends TestCase {
         $expected = array_merge($expected, ['/div', '/div']);
 
         $this->assertHtml($expected, $result, false);
-
     }
-
 }

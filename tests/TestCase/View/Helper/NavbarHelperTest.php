@@ -1,18 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE file
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright   Copyright (c) Mikaël Capelle (https://typename.fr)
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ * @link        https://holt59.github.io/cakephp3-bootstrap-helpers/
+ */
+
 namespace Bootstrap\Test\TestCase\View\Helper;
 
 use Bootstrap\View\Helper\NavbarHelper;
 use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
+use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
-use Cake\Routing\Route\DashedRoute;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 
-class NavbarHelperTest extends TestCase {
-
+class NavbarHelperTest extends TestCase
+{
     /**
      * Instance of the NavbarHelper.
      *
@@ -25,19 +37,21 @@ class NavbarHelperTest extends TestCase {
      *
      * @return void
      */
-    public function setUp() {
+    public function setUp(): void
+    {
         parent::setUp();
         $view = new View();
         $view->loadHelper('Html', [
-            'className' => 'Bootstrap.Html'
+            'className' => 'Bootstrap.Html',
         ]);
         $view->loadHelper('Form', [
-            'className' => 'Bootstrap.Form'
+            'className' => 'Bootstrap.Form',
         ]);
         $this->navbar = new NavbarHelper($view);
     }
 
-    public function testCreate() {
+    public function testCreate()
+    {
         // Test default:
         $result = $this->navbar->create(null);
         $expected = [
@@ -200,7 +214,8 @@ class NavbarHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testEnd() {
+    public function testEnd()
+    {
         // Test standard end (responsive)
         $this->navbar->create(null);
         $result = $this->navbar->end();
@@ -214,22 +229,28 @@ class NavbarHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testButton() {
+    public function testButton()
+    {
         $result = $this->navbar->button('Click Me!');
         $expected = [
             ['button' => ['class' => 'navbar-btn btn btn-default', 'type' => 'button']],
-            'Click Me!', '/button'];
+            'Click Me!', '/button'
+        ];
         $this->assertHtml($expected, $result);
 
         $result = $this->navbar->button('Click Me!', ['class' => 'my-class', 'href' => '/']);
         $expected = [
-            ['button' => ['class' => 'my-class navbar-btn btn btn-default',
-                          'href' => '/', 'type' => 'button']],
-            'Click Me!', '/button'];
+            ['button' => [
+                'class' => 'my-class navbar-btn btn btn-default',
+                'href' => '/', 'type' => 'button'
+            ]],
+            'Click Me!', '/button'
+        ];
         $this->assertHtml($expected, $result);
     }
 
-    public function testText() {
+    public function testText()
+    {
         // Normal test
         $result = $this->navbar->text('Some text');
         $expected = [
@@ -258,7 +279,8 @@ class NavbarHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
 
         $result = $this->navbar->text(
-            'Some text with a <a href="/" class="my-class">link</a>.');
+            'Some text with a <a href="/" class="my-class">link</a>.'
+        );
         $expected = [
             ['p' => ['class' => 'navbar-text']],
             'Some text with a <a href="/" class="my-class navbar-link">link</a>.',
@@ -267,7 +289,10 @@ class NavbarHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testMenu() {
+    public function testMenu()
+    {
+        $this->loadRoutes();
+
         // TODO: Add test for this...
         $this->navbar->setConfig('autoActiveLink', false);
         // Basic test:
@@ -292,9 +317,11 @@ class NavbarHelperTest extends TestCase {
             ['li' => []],
             ['a' => ['href' => '/pages/test']], 'Blog', '/a', '/li',
             ['li' => ['class' => 'dropdown']],
-            ['a' => ['href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown',
-                     'role' => 'button', 'aria-haspopup' => 'true',
-                     'aria-expanded' => 'false']],
+            ['a' => [
+                'href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown',
+                'role' => 'button', 'aria-haspopup' => 'true',
+                'aria-expanded' => 'false'
+            ]],
             'Dropdown',
             ['span' => ['class' => 'caret']], '/span', '/a',
             ['ul' => ['class' => 'dropdown-menu']],
@@ -314,7 +341,10 @@ class NavbarHelperTest extends TestCase {
         // TODO: Add more tests...
     }
 
-    public function testAutoActiveLink() {
+    public function testAutoActiveLink()
+    {
+        $this->loadRoutes();
+
         $this->navbar->create(null);
         $this->navbar->beginMenu('');
 
@@ -374,7 +404,7 @@ class NavbarHelperTest extends TestCase {
                 'pass' => ['1']
             ])
             ->withAttribute('base', '/cakephp');
-        Router::setRequestInfo($request);
+        Router::setRequest($request);
 
         $this->navbar->setConfig('autoActiveLink', true);
         $result = $this->navbar->link('Link', '/pages', [
@@ -403,7 +433,7 @@ class NavbarHelperTest extends TestCase {
         });
         Router::fullBaseUrl('');
         Configure::write('App.fullBaseUrl', 'http://localhost');
-        $request = new ServerRequest('/pages/faq');
+        $request = new ServerRequest(['url' => '/pages/faq']);
         $request = $request
             ->withAttribute('params', [
                 'action' => 'display',
@@ -412,7 +442,7 @@ class NavbarHelperTest extends TestCase {
                 'pass' => ['faq']
             ])
             ->withAttribute('base', '/cakephp');
-        Router::setRequestInfo($request);
+        Router::setRequest($request);
 
         $this->navbar->setConfig('autoActiveLink', true);
         $result = $this->navbar->link('Link', '/pages', [
@@ -441,5 +471,4 @@ class NavbarHelperTest extends TestCase {
         ];
         $this->assertHtml($expected, $result);
     }
-
 };

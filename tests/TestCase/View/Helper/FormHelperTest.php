@@ -1,13 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE file
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright   Copyright (c) Mikaël Capelle (https://typename.fr)
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ * @link        https://holt59.github.io/cakephp3-bootstrap-helpers/
+ */
+
 namespace Bootstrap\Test\TestCase\View\Helper;
 
 use Bootstrap\View\Helper\FormHelper;
 use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 
-class FormHelperTest extends TestCase {
+class FormHelperTest extends TestCase
+{
+    /**
+     * @var \Cake\View\View
+     */
+    protected $View;
 
     /**
      * Instance of FormHelper.
@@ -21,13 +39,24 @@ class FormHelperTest extends TestCase {
      *
      * @return void
      */
-    public function setUp() {
+    public function setUp(): void
+    {
         parent::setUp();
-        $view = new View();
-        $view->loadHelper('Html', [
-            'className' => 'Bootstrap.Html'
+
+        $request = new ServerRequest([
+            'url' => '/',
+            'params' => [
+                'plugin' => null,
+                'controller' => '',
+                'action' => 'index',
+            ],
         ]);
-        $this->form = new FormHelper($view);
+
+        $this->View = new View($request);
+        $this->View->loadHelper('Html', [
+            'className' => 'Bootstrap.Html',
+        ]);
+        $this->form = new FormHelper($this->View);
         $this->dateRegex = [
             'daysRegex' => 'preg:/(?:<option value="0?([\d]+)">\\1<\/option>[\r\n]*)*/',
             'monthsRegex' => 'preg:/(?:<option value="[\d]+">[\w]+<\/option>[\r\n]*)*/',
@@ -45,18 +74,19 @@ class FormHelperTest extends TestCase {
                 'title' => ['type' => 'string', 'null' => true],
                 'body' => 'text',
                 'published' => ['type' => 'string', 'length' => 1, 'default' => 'N'],
-                '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+                '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
             ],
             'required' => [
                 'author_id' => true,
                 'title' => true,
-            ]
+            ],
         ];
 
         Configure::write('debug', true);
     }
 
-    public function testCreate() {
+    public function testCreate()
+    {
         // Standard form
         $this->assertHtml([
             ['form' => [
@@ -89,7 +119,8 @@ class FormHelperTest extends TestCase {
         $this->assertEquals($this->form->inline, false);
     }
 
-    public function testColumnSizes() {
+    public function testColumnSizes()
+    {
         $this->form->setConfig('columns', [
             'md' => [
                 'label' => 2,
@@ -179,7 +210,8 @@ class FormHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testButton() {
+    public function testButton()
+    {
         // default button
         $button = $this->form->button('Test');
         $this->assertHtml([
@@ -211,9 +243,10 @@ class FormHelperTest extends TestCase {
         ], $button);
     }
 
-    protected function _testInput($expected, $fieldName, $options = [], $debug = false) {
+    protected function _testInput($expected, $fieldName, $options = [], $debug = false)
+    {
         $formOptions = [];
-        if(isset($options['_formOptions'])) {
+        if (isset($options['_formOptions'])) {
             $formOptions = $options['_formOptions'];
             unset($options['_formOptions']);
         }
@@ -222,7 +255,8 @@ class FormHelperTest extends TestCase {
         $assert = $this->assertHtml($expected, $result, $debug);
     }
 
-    public function testInput() {
+    public function testInput()
+    {
         $fieldName = 'field';
         // Standard form
         $this->_testInput([
@@ -270,7 +304,8 @@ class FormHelperTest extends TestCase {
         ]);
     }
 
-    public function testInputText() {
+    public function testInputText()
+    {
         $fieldName = 'field';
         $this->_testInput([
             ['div' => [
@@ -292,11 +327,13 @@ class FormHelperTest extends TestCase {
         ], $fieldName, ['type' => 'text']);
     }
 
-    public function testInputSelect() {
-
+    public function testInputSelect()
+    {
+        $this->markTestIncomplete();
     }
 
-    public function testInputRadio() {
+    public function testInputRadio()
+    {
         $fieldName = 'color';
         $options   = [
             'type' => 'radio',
@@ -323,19 +360,19 @@ class FormHelperTest extends TestCase {
                 'class' => 'form-control'
             ]]
         ];
-        foreach($options['options'] as $key => $value) {
+        foreach ($options['options'] as $key => $value) {
             $expected = array_merge($expected, [
                 ['div' => [
                     'class' => 'radio'
                 ]],
                 ['label' => [
-                    'for'   => $fieldName.'-'.$key
+                    'for'   => $fieldName . '-' . $key
                 ]],
                 ['input' => [
                     'type'  => 'radio',
                     'name'  => $fieldName,
                     'value' => $key,
-                    'id'    => $fieldName.'-'.$key
+                    'id'    => $fieldName . '-' . $key
                 ]],
                 $value,
                 '/label',
@@ -365,17 +402,17 @@ class FormHelperTest extends TestCase {
                 'class' => 'form-control'
             ]]
         ];
-        foreach($options['options'] as $key => $value) {
+        foreach ($options['options'] as $key => $value) {
             $expected = array_merge($expected, [
                 ['label' => [
                     'class' => 'radio-inline',
-                    'for'   => $fieldName.'-'.$key
+                    'for'   => $fieldName . '-' . $key
                 ]],
                 ['input' => [
                     'type'  => 'radio',
                     'name'  => $fieldName,
                     'value' => $key,
-                    'id'    => $fieldName.'-'.$key
+                    'id'    => $fieldName . '-' . $key
                 ]],
                 $value,
                 '/label'
@@ -407,19 +444,19 @@ class FormHelperTest extends TestCase {
                 'class' => 'form-control'
             ]]
         ];
-        foreach($options['options'] as $key => $value) {
+        foreach ($options['options'] as $key => $value) {
             $expected = array_merge($expected, [
                 ['div' => [
                     'class' => 'radio'
                 ]],
                 ['label' => [
-                    'for'   => $fieldName.'-'.$key
+                    'for'   => $fieldName . '-' . $key
                 ]],
                 ['input' => [
                     'type'  => 'radio',
                     'name'  => $fieldName,
                     'value' => $key,
-                    'id'    => $fieldName.'-'.$key
+                    'id'    => $fieldName . '-' . $key
                 ]],
                 $value,
                 '/label',
@@ -450,17 +487,17 @@ class FormHelperTest extends TestCase {
                 'class' => 'form-control'
             ]]
         ];
-        foreach($options['options'] as $key => $value) {
+        foreach ($options['options'] as $key => $value) {
             $expected = array_merge($expected, [
                 ['label' => [
                     'class' => 'radio-inline',
-                    'for'   => $fieldName.'-'.$key
+                    'for'   => $fieldName . '-' . $key
                 ]],
                 ['input' => [
                     'type'  => 'radio',
                     'name'  => $fieldName,
                     'value' => $key,
-                    'id'    => $fieldName.'-'.$key
+                    'id'    => $fieldName . '-' . $key
                 ]],
                 $value,
                 '/label'
@@ -470,11 +507,13 @@ class FormHelperTest extends TestCase {
         $this->_testInput($expected, $fieldName, $options);
     }
 
-    public function testInputCheckbox() {
-
+    public function testInputCheckbox()
+    {
+        $this->markTestIncomplete();
     }
 
-    public function testInputGroup() {
+    public function testInputGroup()
+    {
         $fieldName = 'field';
         $options   = [
             'type' => 'text',
@@ -553,8 +592,11 @@ class FormHelperTest extends TestCase {
             '/div',
             '/div'
         ];
-        $this->_testInput($expected, $fieldName,
-                           $options + ['prepend' => '$', 'append' => '.00']);
+        $this->_testInput(
+            $expected,
+            $fieldName,
+            $options + ['prepend' => '$', 'append' => '.00']
+        );
         // Test with prepend button
         $expected = [
             ['div' => [
@@ -582,9 +624,12 @@ class FormHelperTest extends TestCase {
             '/div',
             '/div'
         ];
-
-        $this->_testInput($expected, $fieldName,
-                           $options + ['prepend' => $this->form->button('Go!')]);
+        $this->_testInput(
+            $expected,
+            $fieldName,
+            $options + ['prepend' => $this->form->button('Go!')],
+            true
+        );
 
         // Test with append button
         $expected = [
@@ -613,8 +658,11 @@ class FormHelperTest extends TestCase {
             '/div',
             '/div'
         ];
-        $this->_testInput($expected, $fieldName,
-                           $options + ['append' => $this->form->button('Go!')]);
+        $this->_testInput(
+            $expected,
+            $fieldName,
+            $options + ['append' => $this->form->button('Go!')]
+        );
         // Test with append 2 button
         $expected = [
             ['div' => [
@@ -653,7 +701,8 @@ class FormHelperTest extends TestCase {
         ]);
     }
 
-    public function testAppendDropdown() {
+    public function testAppendDropdown()
+    {
         $fieldName = 'field';
         $options   = [
             'type' => 'text',
@@ -764,7 +813,8 @@ class FormHelperTest extends TestCase {
         ]);
     }
 
-    public function testInputTemplateVars() {
+    public function testInputTemplateVars()
+    {
         $fieldName = 'field';
         // Add a template with the help placeholder.
         $help = 'Some help text.';
@@ -795,239 +845,44 @@ class FormHelperTest extends TestCase {
         ], $fieldName, ['templateVars' => ['help' => $help]]);
     }
 
-    public function testDateTime() {
+    public function testDateTime()
+    {
         extract($this->dateRegex);
 
-        $result = $this->form->dateTime('Contact.date', ['default' => true]);
         $now = strtotime('now');
+        $result = $this->form->dateTime('Contact.date');
         $expected = [
-            ['div' => ['class' => 'row']],
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][year]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $yearsRegex,
-            ['option' => ['value' => date('Y', $now), 'selected' => 'selected']],
-            date('Y', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][month]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $monthsRegex,
-            ['option' => ['value' => date('m', $now), 'selected' => 'selected']],
-            date('F', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][day]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $daysRegex,
-            ['option' => ['value' => date('d', $now), 'selected' => 'selected']],
-            date('j', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][hour]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $hoursRegex,
-            ['option' => ['value' => date('H', $now), 'selected' => 'selected']],
-            date('G', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][minute]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $minutesRegex,
-            ['option' => ['value' => date('i', $now), 'selected' => 'selected']],
-            date('i', $now),
-            '/option',
-            '*/select',
-            '/div',
-            '/div'
-        ];
-        $this->assertHtml($expected, $result);
-
-        // Empty=>false implies Default=>true, as selecting the "first" dropdown value is useless
-        $result = $this->form->dateTime('Contact.date', ['empty' => false]);
-        $now = strtotime('now');
-        $expected = [
-            ['div' => ['class' => 'row']],
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][year]', 'class' => 'form-control']],
-            $yearsRegex,
-            ['option' => ['value' => date('Y', $now), 'selected' => 'selected']],
-            date('Y', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][month]', 'class' => 'form-control']],
-            $monthsRegex,
-            ['option' => ['value' => date('m', $now), 'selected' => 'selected']],
-            date('F', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][day]', 'class' => 'form-control']],
-            $daysRegex,
-            ['option' => ['value' => date('d', $now), 'selected' => 'selected']],
-            date('j', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][hour]', 'class' => 'form-control']],
-            $hoursRegex,
-            ['option' => ['value' => date('H', $now), 'selected' => 'selected']],
-            date('G', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-2']],
-            ['select' => ['name' => 'Contact[date][minute]', 'class' => 'form-control']],
-            $minutesRegex,
-            ['option' => ['value' => date('i', $now), 'selected' => 'selected']],
-            date('i', $now),
-            '/option',
-            '*/select',
-            '/div',
-            '/div'
-        ];
-        $this->assertHtml($expected, $result);
-
-        // year => false implies 4 column, thus column size => 3
-        $result = $this->form->dateTime('Contact.date', ['default' => true, 'year' => false]);
-        $now = strtotime('now');
-        $expected = [
-            ['div' => ['class' => 'row']],
-            ['div' => ['class' => 'col-md-3']],
-            ['select' => ['name' => 'Contact[date][month]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $monthsRegex,
-            ['option' => ['value' => date('m', $now), 'selected' => 'selected']],
-            date('F', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-3']],
-            ['select' => ['name' => 'Contact[date][day]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $daysRegex,
-            ['option' => ['value' => date('d', $now), 'selected' => 'selected']],
-            date('j', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-3']],
-            ['select' => ['name' => 'Contact[date][hour]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $hoursRegex,
-            ['option' => ['value' => date('H', $now), 'selected' => 'selected']],
-            date('G', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-3']],
-            ['select' => ['name' => 'Contact[date][minute]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $minutesRegex,
-            ['option' => ['value' => date('i', $now), 'selected' => 'selected']],
-            date('i', $now),
-            '/option',
-            '*/select',
-            '/div',
-            '/div'
-        ];
-        $this->assertHtml($expected, $result);
-
-        // year => false, month => false, day => false implies 2 column, thus column size => 6
-        $result = $this->form->dateTime('Contact.date', ['default' => true, 'year' => false,
-                                                         'month' => false, 'day' => false]);
-        $now = strtotime('now');
-        $expected = [
-            ['div' => ['class' => 'row']],
-            ['div' => ['class' => 'col-md-6']],
-            ['select' => ['name' => 'Contact[date][hour]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $hoursRegex,
-            ['option' => ['value' => date('H', $now), 'selected' => 'selected']],
-            date('G', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-6']],
-            ['select' => ['name' => 'Contact[date][minute]', 'class' => 'form-control']],
-            ['option' => ['value' => '']],
-            '/option',
-            $minutesRegex,
-            ['option' => ['value' => date('i', $now), 'selected' => 'selected']],
-            date('i', $now),
-            '/option',
-            '*/select',
-            '/div',
-            '/div'
+            ['input' => [
+                'type' => 'datetime-local',
+                'name' => 'Contact[date]',
+                'class' => 'form-control',
+            ]],
         ];
         $this->assertHtml($expected, $result);
 
         // Test with input()
-        $result = $this->form->control('Contact.date', ['type' => 'date']);
         $now = strtotime('now');
+        $result = $this->form->control('Contact.date', ['type' => 'date']);
         $expected = [
             ['div' => [
-                'class' => 'form-group date'
+                'class' => 'form-group date',
             ]],
-            ['label' => [
-                'class' => 'control-label'
-            ]],
+            ['label' => ['class' => 'control-label', 'for' => 'contact-date']],
             'Date',
             '/label',
-            ['div' => ['class' => 'row']],
-            ['div' => ['class' => 'col-md-4']],
-            ['select' => ['name' => 'Contact[date][year]', 'class' => 'form-control']],
-            $yearsRegex,
-            ['option' => ['value' => date('Y', $now), 'selected' => 'selected']],
-            date('Y', $now),
-            '/option',
-            '*/select',
+            ['input' => [
+                'type' => 'date',
+                'name' => 'Contact[date]',
+                'class' => 'form-control',
+                'id' => 'contact-date',
+            ]],
             '/div',
-            ['div' => ['class' => 'col-md-4']],
-            ['select' => ['name' => 'Contact[date][month]', 'class' => 'form-control']],
-            $monthsRegex,
-            ['option' => ['value' => date('m', $now), 'selected' => 'selected']],
-            date('F', $now),
-            '/option',
-            '*/select',
-            '/div',
-            ['div' => ['class' => 'col-md-4']],
-            ['select' => ['name' => 'Contact[date][day]', 'class' => 'form-control']],
-            $daysRegex,
-            ['option' => ['value' => date('d', $now), 'selected' => 'selected']],
-            date('j', $now),
-            '/option',
-            '*/select',
-            '/div',
-            '/div',
-            '/div'
         ];
         $this->assertHtml($expected, $result);
     }
 
-    public function testSubmit() {
+    public function testSubmit()
+    {
         $this->form->horizontal = false;
         $result = $this->form->submit('Submit');
         $expected = [
@@ -1058,7 +913,8 @@ class FormHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testCustomFileInput() {
+    public function testCustomFileInput()
+    {
         $this->form->setConfig('useCustomFileInput', true);
         $result = $this->form->file('Contact.picture');
         $expected = [
@@ -1124,7 +980,8 @@ class FormHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testUploadCustomFileInput() {
+    public function testUploadCustomFileInput()
+    {
         $expected = [
             ['input' => [
                 'type' => 'file',
@@ -1173,22 +1030,21 @@ class FormHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testFormSecuredFileControl() {
+    public function testFormSecuredFileControl()
+    {
+        $this->View->setRequest($this->View->getRequest()->withAttribute('formTokenData', [
+            'unlockedFields' => [],
+        ]));
+
+        $this->form->setConfig('useCustomFileInput', true);
         $this->form->setConfig('useCustomFileInput', true);
         // Test with filename, see issues #56, #123
-        $this->assertEquals([], $this->form->fields);
+        $this->form->create();
         $this->form->file('picture');
         $this->form->file('Contact.picture');
-        $expected = [
-            'picture-text',
-            'picture.name', 'picture.type',
-            'picture.tmp_name', 'picture.error',
-            'picture.size',
-            'Contact.picture-text',
-            'Contact.picture.name', 'Contact.picture.type',
-            'Contact.picture.tmp_name', 'Contact.picture.error',
-            'Contact.picture.size'
-        ];
-        $this->assertEquals($expected, $this->form->fields);
+
+        $tokenData = $this->form->getFormProtector()->buildTokenData();
+
+        $this->assertSame('949a50880781bda6c5c21f4ef7e82548c682b7e8%3A', $tokenData['fields']);
     }
 }

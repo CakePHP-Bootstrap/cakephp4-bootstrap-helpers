@@ -1,13 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE file
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright   Copyright (c) Mikaël Capelle (https://typename.fr)
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ * @link        https://holt59.github.io/cakephp3-bootstrap-helpers/
+ */
+
 namespace Bootstrap\Test\TestCase\View\Helper;
 
 use Bootstrap\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 
-class HtmlHelperTest extends TestCase {
-
+class HtmlHelperTest extends TestCase
+{
     /**
      * Instance of HtmlHelper.
      *
@@ -20,13 +32,15 @@ class HtmlHelperTest extends TestCase {
      *
      * @return void
      */
-    public function setUp() {
+    public function setUp(): void
+    {
         parent::setUp();
         $view = new View();
         $this->html = new HtmlHelper($view);
     }
 
-    public function testIcon() {
+    public function testIcon()
+    {
 
         // Default icon
         $result = $this->html->icon('home', [
@@ -80,10 +94,10 @@ class HtmlHelperTest extends TestCase {
         ];
         $this->assertHtml($expected, $result);
         $this->html->setTemplates($oldTemplates);
-
     }
 
-    public function testLabel() {
+    public function testLabel()
+    {
         $content = 'My Label';
         // Standard test
         $this->assertHtml([
@@ -108,7 +122,7 @@ class HtmlHelperTest extends TestCase {
         ];
         $this->assertHtml([
             ['span' => [
-                'class' => 'label label-primary '.$options['class'],
+                'class' => 'label label-primary ' . $options['class'],
                 'id'    => $options['id']
             ]],
             'My Label',
@@ -122,7 +136,7 @@ class HtmlHelperTest extends TestCase {
         ];
         $this->assertHtml([
             ['span' => [
-                'class' => 'label label-primary '.$options['class'],
+                'class' => 'label label-primary ' . $options['class'],
                 'id'    => $options['id']
             ]],
             'My Label',
@@ -130,7 +144,8 @@ class HtmlHelperTest extends TestCase {
         ], $this->html->label($content, $options));
     }
 
-    public function testAlert() {
+    public function testAlert()
+    {
 
         // Default
         $result = $this->html->alert('Alert');
@@ -204,7 +219,8 @@ class HtmlHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testTooltip() {
+    public function testTooltip()
+    {
         // Default test
         $result = $this->html->tooltip('Content', 'Tooltip');
         $expected = [
@@ -217,7 +233,8 @@ class HtmlHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testProgress() {
+    public function testProgress()
+    {
         // Default test
         $result = $this->html->progress(20);
         $expected = [
@@ -280,7 +297,8 @@ class HtmlHelperTest extends TestCase {
         $this->assertHtml($expected, $result);
     }
 
-    public function testDropdown() {
+    public function testDropdown()
+    {
         $result = $this->html->dropdown([
             ['header' => 'Header 1'],
             'divider',
@@ -321,5 +339,4 @@ class HtmlHelperTest extends TestCase {
         ];
         $this->assertHtml($expected, $result);
     }
-
 }

@@ -1,30 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE file
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright   Copyright (c) Mikaël Capelle (https://typename.fr)
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ * @link        https://holt59.github.io/cakephp3-bootstrap-helpers/
+ */
+
 namespace Bootstrap\Test\TestCase\View\Helper;
 
-use Bootstrap\View\Helper\EasyIconTrait;
+use Bootstrap\TestApp\PublicEasyIconTrait;
 use Bootstrap\View\Helper\FormHelper;
-use Bootstrap\View\Helper\HtmlHelper;
 use Bootstrap\View\Helper\PaginatorHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 
-class PublicEasyIconTrait {
-
-    use EasyIconTrait;
-
-    public function __construct($view) {
-        $this->Html = new HtmlHelper($view);
-    }
-
-    public function publicMakeIcon($title, &$converted) {
-        return $this->_makeIcon($title, $converted);
-    }
-
-};
-
-class EasyIconTraitTest extends TestCase {
-
+class EasyIconTraitTest extends TestCase
+{
     /**
      * Instance of PublicEasyIconTrait.
      *
@@ -58,11 +55,12 @@ class EasyIconTraitTest extends TestCase {
      *
      * @return void
      */
-    public function setUp() {
+    public function setUp(): void
+    {
         parent::setUp();
         $view = new View();
         $view->loadHelper('Html', [
-            'className' => 'Bootstrap.BootstrapHtml'
+            'className' => 'Bootstrap.Html',
         ]);
         $this->html = $view->Html;
         $this->trait = new PublicEasyIconTrait($view);
@@ -70,23 +68,26 @@ class EasyIconTraitTest extends TestCase {
         $this->paginator = new PaginatorHelper($view);
     }
 
-    public function testEasyIcon() {
+    public function testEasyIcon()
+    {
         $converted = false;
 
         $this->assertHtml(
             [['i' => [
                 'class' => 'glyphicon glyphicon-plus',
                 'aria-hidden' => 'true'
-            ]], '/i'], $this->trait->publicMakeIcon('i:plus', $converted));
+            ]], '/i'],
+            $this->trait->publicMakeIcon('i:plus', $converted)
+        );
         $this->assertTrue($converted);
 
         $this->assertHtml(['Click Me!'], $this->trait->publicMakeIcon('Click Me!', $converted));
         $this->assertFalse($converted);
 
         $this->assertHtml([['i' => [
-                'class' => 'glyphicon glyphicon-plus',
-                'aria-hidden' => 'true'
-            ]], '/i', ' Add'], $this->trait->publicMakeIcon('i:plus Add', $converted));
+            'class' => 'glyphicon glyphicon-plus',
+            'aria-hidden' => 'true'
+        ]], '/i', ' Add'], $this->trait->publicMakeIcon('i:plus Add', $converted));
         $this->assertTrue($converted);
 
         $this->assertHtml(['Add ', ['i' => [
@@ -100,7 +101,8 @@ class EasyIconTraitTest extends TestCase {
         $this->assertFalse($converted);
     }
 
-    public function testHtmlHelperMethods() {
+    public function testHtmlHelperMethods()
+    {
 
         // BootstrapHtmlHelper
         $result = $this->html->link('i:dashboard Dashboard', '/dashboard');
@@ -138,19 +140,20 @@ class EasyIconTraitTest extends TestCase {
                 'aria-hidden' => 'true'
             ]], '/i', '&lt;script&gt;Dashboard&lt;/script&gt;', '/a'
         ], $result);
-
     }
 
-    public function testPaginatorHelperMethods() {
+    public function testPaginatorHelperMethods()
+    {
 
         // BootstrapPaginatorHelper - TODO
         // BootstrapPaginatorHelper::prev($title, array $options = []);
         // BootstrapPaginatorHelper::next($title, array $options = []);
         // BootstrapPaginatorHelper::numbers(array $options = []); // For `prev` and `next` options.
-
+        $this->markTestIncomplete();
     }
 
-    public function testFormHelperMethod() {
+    public function testFormHelperMethod()
+    {
 
         // BootstrapFormHelper
         $result = $this->form->button('i:plus');
@@ -203,5 +206,4 @@ class EasyIconTraitTest extends TestCase {
         //BootstrapFormHelper::prepend($input, $prepend); // For $prepend.
         //BootstrapFormHelper::append($input, $append); // For $append.
     }
-
 };
