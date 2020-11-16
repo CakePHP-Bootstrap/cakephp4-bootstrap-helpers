@@ -1,9 +1,9 @@
 {
-    "name": "holt59/cakephp3-bootstrap-helpers",
-    "description": "Bootstrap Helpers for CakePHP 3.0",
+    "name": "holt59/cakephp4-bootstrap-helpers",
+    "description": "Bootstrap Helpers for CakePHP 4.0",
     "type": "cakephp-plugin",
     "keywords": ["cakephp", "bootstrap"],
-    "homepage": "https://holt59.github.io/cakephp3-bootstrap-helpers/",
+    "homepage": "https://holt59.github.io/cakephp4-bootstrap-helpers/",
     "license": "MIT",
     "support": {
         "issues": "https://github.com/Holt59/cakephp3-bootstrap-helpers/issues",
