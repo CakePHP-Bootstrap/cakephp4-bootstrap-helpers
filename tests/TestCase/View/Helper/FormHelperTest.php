@@ -849,19 +849,19 @@ class FormHelperTest extends TestCase
     {
         extract($this->dateRegex);
 
-        $now = strtotime('now');
         $result = $this->form->dateTime('Contact.date');
         $expected = [
             ['input' => [
                 'type' => 'datetime-local',
                 'name' => 'Contact[date]',
                 'class' => 'form-control',
+                'step' => '1',
+                'value' => ''
             ]],
         ];
         $this->assertHtml($expected, $result);
 
         // Test with input()
-        $now = strtotime('now');
         $result = $this->form->control('Contact.date', ['type' => 'date']);
         $expected = [
             ['div' => [
@@ -875,6 +875,7 @@ class FormHelperTest extends TestCase
                 'name' => 'Contact[date]',
                 'class' => 'form-control',
                 'id' => 'contact-date',
+                'value' => ''
             ]],
             '/div',
         ];
