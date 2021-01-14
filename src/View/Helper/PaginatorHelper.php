@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,9 +13,11 @@ declare(strict_types=1);
 
 namespace Bootstrap\View\Helper;
 
+use Cake\Utility\Hash;
+use Cake\View\View;
+
 /**
  * Pagination Helper class for easy generation of pagination links.
- *
  * PaginationHelper encloses all methods needed when working with pagination.
  *
  * @property \Cake\View\Helper\UrlHelper $Url
@@ -30,13 +31,11 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
     use EasyIconTrait;
 
     /**
-     * Other helpers used by PanelHelper.
+     * List of helpers used by this helper
      *
      * @var array
      */
-    public $helpers = [
-        'Url', 'Number', 'Html',
-    ];
+    public $helpers = ['Url', 'Number', 'Html', 'Form'];
 
     /**
      * Default configuration for this class.
@@ -56,28 +55,31 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected $helperConfig = [
         'options' => [],
         'templates' => [
             'nextActive' => '<li><a href="{{url}}">{{text}}</a></li>',
             'nextDisabled' => '<li class="disabled"><a>{{text}}</a></li>',
             'prevActive' => '<li><a href="{{url}}">{{text}}</a></li>',
             'prevDisabled' => '<li class="disabled"><a>{{text}}</a></li>',
-            'counterRange' => '{{start}} - {{end}} of {{count}}',
-            'counterPages' => '{{page}} of {{pages}}',
             'first' => '<li><a href="{{url}}">{{text}}</a></li>',
             'last' => '<li><a href="{{url}}">{{text}}</a></li>',
-            'number' => '<li><a href="{{url}}">{{text}}</a></li>',
             'current' => '<li class="active"><a href="{{url}}">{{text}}</a></li>',
             'ellipsis' => '<li class="ellipsis disabled"><a>&hellip;</a></li>',
-            'sort' => '<a href="{{url}}">{{text}}</a>',
-            'sortAsc' => '<a class="asc" href="{{url}}">{{text}}</a>',
-            'sortDesc' => '<a class="desc" href="{{url}}">{{text}}</a>',
-            'sortAscLocked' => '<a class="asc locked" href="{{url}}">{{text}}</a>',
-            'sortDescLocked' => '<a class="desc locked" href="{{url}}">{{text}}</a>',
         ],
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(View $View, array $config = [])
+    {
+        // Default config. Use Hash::merge() to keep default values
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->helperConfig);
+
+        parent::__construct($View, $config);
+    }
 
     /**
      * Calculates the start and end for the pagination numbers.
@@ -180,7 +182,7 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 
         $params = (array)$this->params($options['model']) + ['page' => 1];
         if ($params['pageCount'] <= 1) {
-            return false;
+            return '';
         }
 
         $templater = $this->templater();
