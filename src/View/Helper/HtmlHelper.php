@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Bootstrap\View\Helper;
 
 use Bootstrap\Utility\Matching;
+use Cake\Utility\Hash;
+use Cake\View\View;
 
 /**
  * Html Helper class for easy use of HTML widgets.
@@ -28,49 +30,13 @@ class HtmlHelper extends \Cake\View\Helper\HtmlHelper
     use EasyIconTrait;
 
     /**
-     * Default config for the helper.
-     *
-     * ### Options:
-     *
-     * - `alert` Default options for alert.
-     * - `label` Default options for labels.
-     * - `progress` Default options for progress bar.
-     * - `tooltip` Default options for tooltips.
-     * - See [CakePHP documentation](https://api.cakephp.org/3.3/class-Cake.View.Helper.HtmlHelper.html#$_defaultConfig) for extra configuration options.
+     * Default configuration for this helper.
+     * Don't override parent::$_defaultConfig for robustness
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected $helperConfig = [
         'templates' => [
-            'meta' => '<meta{{attrs}}/>',
-            'metalink' => '<link href="{{url}}"{{attrs}}/>',
-            'link' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
-            'mailto' => '<a href="mailto:{{url}}"{{attrs}}>{{content}}</a>',
-            'image' => '<img src="{{url}}"{{attrs}}/>',
-            'tableheader' => '<th{{attrs}}>{{content}}</th>',
-            'tableheaderrow' => '<tr{{attrs}}>{{content}}</tr>',
-            'tablecell' => '<td{{attrs}}>{{content}}</td>',
-            'tablerow' => '<tr{{attrs}}>{{content}}</tr>',
-            'block' => '<div{{attrs}}>{{content}}</div>',
-            'blockstart' => '<div{{attrs}}>',
-            'blockend' => '</div>',
-            'tag' => '<{{tag}}{{attrs}}>{{content}}</{{tag}}>',
-            'tagstart' => '<{{tag}}{{attrs}}>',
-            'tagend' => '</{{tag}}>',
-            'tagselfclosing' => '<{{tag}}{{attrs}}/>',
-            'para' => '<p{{attrs}}>{{content}}</p>',
-            'parastart' => '<p{{attrs}}>',
-            'css' => '<link rel="{{rel}}" href="{{url}}"{{attrs}}/>',
-            'style' => '<style{{attrs}}>{{content}}</style>',
-            'charset' => '<meta charset="{{charset}}"/>',
-            'ul' => '<ul{{attrs}}>{{content}}</ul>',
-            'ol' => '<ol{{attrs}}>{{content}}</ol>',
-            'li' => '<li{{attrs}}>{{content}}</li>',
-            'javascriptblock' => '<script{{attrs}}>{{content}}</script>',
-            'javascriptstart' => '<script>',
-            'javascriptlink' => '<script src="{{url}}"{{attrs}}></script>',
-            'javascriptend' => '</script>',
-
             // New templates for Bootstrap
             'icon' => '<i aria-hidden="true" class="fa fa-{{type}}{{attrs.class}}"{{attrs}}></i>',
             'badge' => '<span class="badge badge-{{type}}{{attrs.class}}"{{attrs}}>{{content}}</span>',
@@ -88,7 +54,6 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
             'dropdownMenuItem' => '<a href="{{url}}" class="dropdown-item{{attrs.class}}"{{attrs}}>{{content}}</a>',
             'dropdownMenuHeader' => '<h6 class="dropdown-header{{attrs.class}}"{{attrs}}>{{content}}</h6>',
             'dropdownMenuDivider' => '<div role="separator" class="dropdown-divider{{attrs.class}}"{{attrs}}></div>',
-            'confirmJs' => '{{confirm}}',
         ],
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
         'tooltip' => [
@@ -107,6 +72,17 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
             'type' => 'primary',
         ],
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(View $View, array $config = [])
+    {
+        // Default config. Use Hash::merge() to keep default values
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->helperConfig);
+
+        parent::__construct($View, $config);
+    }
 
     /**
      * Create an icon using the template `icon`.
