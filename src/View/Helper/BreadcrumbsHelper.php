@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  *
  * Licensed under The MIT License
@@ -14,27 +16,41 @@
  */
 namespace Bootstrap\View\Helper;
 
+use Cake\Utility\Hash;
+use Cake\View\View;
+
 /**
  * BreadcrumbsHelper to register and display a breadcrumb trail for your views.
  *
  * @property \Cake\View\Helper\UrlHelper $Url
  */
-class BreadcrumbsHelper extends \Cake\View\Helper\BreadcrumbsHelper{
+class BreadcrumbsHelper extends \Cake\View\Helper\BreadcrumbsHelper
+{
 
     /**
-     * Default config for the helper.
+     * Default configuration for this helper.
+     * Don't override parent::$_defaultConfig for robustness
      *
      * @var array
-     * @link https://api.cakephp.org/3.3/class-Cake.View.Helper.BreadcrumbsHelper.html
      */
-    protected $_defaultConfig = [
+    protected $helperConfig = [
         'templates' => [
             'wrapper' => '<ol class="breadcrumb{{attrs.class}}"{{attrs}}>{{content}}</ol>',
             'item' => '<li{{attrs}}><a href="{{url}}"{{innerAttrs}}>{{title}}</a></li>',
             'itemWithoutLink' => '<li class="active{{attrs.class}}"{{attrs}}>{{title}}</li>',
-            'separator' => ''
+            'separator' => '',
         ],
-        'templateClass' => 'Bootstrap\View\EnhancedStringTemplate'
+        'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
     ];
 
-};
+    /**
+     * @inheritDoc
+     */
+    public function __construct(View $View, array $config = [])
+    {
+        // Default config. Use Hash::merge() to keep default values
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->helperConfig);
+
+        parent::__construct($View, $config);
+    }
+}
