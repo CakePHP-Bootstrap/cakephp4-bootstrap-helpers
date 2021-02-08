@@ -48,7 +48,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      *
      * @var array
      */
-    protected $helperConfig = [
+    protected $_helperConfig = [
         'errorClass' => 'has-error',
         'templates' => [
             'checkboxContainer' => '<div class="checkbox {{required}}">{{content}}</div>',
@@ -143,7 +143,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
     public function __construct(\Cake\View\View $View, array $config = [])
     {
         // Default config. Use Hash::merge() to keep default values
-        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->helperConfig);
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->_helperConfig);
 
         // Default widgets. Use array_merge to avoid digit key problems
         $this->_defaultWidgets = array_merge($this->_defaultWidgets, $this->helperWidgets);

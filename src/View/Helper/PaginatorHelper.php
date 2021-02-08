@@ -55,7 +55,7 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
      *
      * @var array
      */
-    protected $helperConfig = [
+    protected $_helperConfig = [
         'options' => [],
         'templates' => [
             'nextActive' => '<li><a href="{{url}}">{{text}}</a></li>',
@@ -76,7 +76,7 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
     public function __construct(View $View, array $config = [])
     {
         // Default config. Use Hash::merge() to keep default values
-        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->helperConfig);
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->_helperConfig);
 
         parent::__construct($View, $config);
     }

@@ -35,7 +35,7 @@ class HtmlHelper extends \Cake\View\Helper\HtmlHelper
      *
      * @var array
      */
-    protected $helperConfig = [
+    protected $_helperConfig = [
         'templates' => [
             // New templates for Bootstrap
             'icon' => '<i aria-hidden="true" class="glyphicon glyphicon-{{type}}{{attrs.class}}"{{attrs}}></i>',
@@ -81,7 +81,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
     public function __construct(View $View, array $config = [])
     {
         // Default config. Use Hash::merge() to keep default values
-        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->helperConfig);
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->_helperConfig);
 
         parent::__construct($View, $config);
     }
