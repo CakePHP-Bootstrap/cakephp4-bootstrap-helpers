@@ -12,6 +12,9 @@ declare(strict_types=1);
  */
 namespace Bootstrap\View\Helper;
 
+use Cake\Utility\Hash;
+use Cake\View\View;
+
 /**
  * BreadcrumbsHelper to register and display a breadcrumb trail for your views.
  *
@@ -20,12 +23,12 @@ namespace Bootstrap\View\Helper;
 class BreadcrumbsHelper extends \Cake\View\Helper\BreadcrumbsHelper
 {
     /**
-     * Default config for the helper.
+     * Default configuration for this helper.
+     * Don't override parent::$_defaultConfig for robustness
      *
      * @var array
-     * @link https://api.cakephp.org/3.3/class-Cake.View.Helper.BreadcrumbsHelper.html
      */
-    protected $_defaultConfig = [
+    protected $_helperConfig = [
         'templates' => [
             'wrapper' => '<ol class="breadcrumb{{attrs.class}}"{{attrs}}>{{content}}</ol>',
             'item' => '<li class="breadcrumb-item{{attrs.class}}"{{attrs}}><a href="{{url}}"{{innerAttrs}}>{{title}}</a></li>',
@@ -34,4 +37,15 @@ class BreadcrumbsHelper extends \Cake\View\Helper\BreadcrumbsHelper
         ],
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(View $View, array $config = [])
+    {
+        // Default config. Use Hash::merge() to keep default values
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->_helperConfig);
+
+        parent::__construct($View, $config);
+    }
 }

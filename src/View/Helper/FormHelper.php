@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Bootstrap\View\Helper;
 
 use Bootstrap\View\FlexibleStringTemplateTrait;
+use Cake\Utility\Hash;
 
 /**
  * Form helper library.
@@ -40,68 +41,50 @@ class FormHelper extends \Cake\View\Helper\FormHelper
     ];
 
     /**
-     * Default configuration for the helper.
-     *
-     * - `idPrefix` See CakePHP `FormHelper`.
-     * - `errorClass` See CakePHP `FormHelper`. Overriden by `'has-error'`.
-     * - `typeMap` See CakePHP `FormHelper`.
-     * - `templates` Templates for the various form elements.
-     * - `templateClass` Class used to format the various template. Do not override!
-     * - `buttons` Default options for buttons.
-     * - `columns` Default column sizes for horizontal forms.
-     * - `useCustomFileInput` Set to `true` to use the custom file input. Default is `false`.
+     * Default configuration for this helper.
+     * Don't override parent::$_defaultConfig for robustness
      *
      * @var array
      */
-    protected $_defaultConfig = [
-        'idPrefix' => null,
+    protected $_helperConfig = [
         'errorClass' => 'is-invalid',
-        'typeMap' => [
-            'string' => 'text', 'datetime' => 'datetime', 'boolean' => 'checkbox',
-            'timestamp' => 'datetime', 'text' => 'textarea', 'time' => 'time',
-            'date' => 'date', 'float' => 'number', 'integer' => 'number',
-            'decimal' => 'number', 'binary' => 'file', 'uuid' => 'string',
-        ],
-
         'templates' => [
-            'button' => '<button{{attrs}}>{{text}}</button>',
+            // Used for checkboxes in checkbox() and multiCheckbox().
             'checkbox' => '<input type="checkbox" class="form-check-input{{attrs.class}}" name="{{name}}" value="{{value}}"{{attrs}}>',
-            'checkboxFormGroup' => '{{label}}',
-            'checkboxWrapper' => '<div class="form-check">{{label}}</div>',
             'checkboxContainer' => '<div class="form-check checkbox{{required}}">{{content}}</div>',
             'checkboxContainerHorizontal' => '<div class="form-group row"><div class="{{labelColumnClass}}"></div><div class="{{inputColumnClass}}"><div class="form-check checkbox{{required}}">{{content}}</div></div></div>',
             'multicheckboxContainer' => '<fieldset class="form-group {{type}}{{required}}">{{content}}</fieldset>',
             'multicheckboxContainerHorizontal' => '<fieldset class="form-group {{type}}{{required}}"><div class="row">{{content}}</div></fieldset>','dateWidget' => '<div class="row">{{year}}{{month}}{{day}}{{hour}}{{minute}}{{second}}{{meridian}}</div>',
+            // Error message wrapper elements.
             'error' => '<div class="error-message invalid-feedback">{{content}}</div>',
             'errorInline' => '<div class="error-message invalid-feedback">{{content}}</div>',
-            'errorList' => '<ul>{{content}}</ul>',
-            'errorItem' => '<li>{{text}}</li>',
-            'file' => '<input type="file" name="{{name}}" {{attrs}}>',
-            'fieldset' => '<fieldset{{attrs}}>{{content}}</fieldset>',
-            'formStart' => '<form{{attrs}}>',
-            'formEnd' => '</form>',
+            // General grouping container for control(). Defines input/label ordering.
             'formGroup' => '{{label}}{{prepend}}{{input}}{{append}}',
             'formGroupHorizontal' => '{{label}}<div class="{{inputColumnClass}}">{{prepend}}{{input}}{{append}}{{error}}</div>',
-            'hiddenBlock' => '<div style="display:none;">{{content}}</div>',
+            // Generic input element.
             'input' => '<input type="{{type}}" name="{{name}}" class="form-control{{attrs.class}}" {{attrs}} />',
-            'inputSubmit' => '<input type="{{type}}"{{attrs}}>',
+            // Container element used by control().
             'inputContainer' => '<div class="form-group {{type}}{{required}}">{{content}}</div>',
             'inputContainerHorizontal' => '<div class="form-group row {{type}}{{required}}">{{content}}</div>',
+            // Container element used by control() when a field has an error.
             'inputContainerError' => '<div class="form-group has-error {{type}}{{required}}">{{content}}{{error}}</div>',
             'inputContainerErrorHorizontal' => '<div class="form-group row has-error {{type}}{{required}}">{{content}}</div>',
-            'label' => '<label{{attrs}}>{{text}}</label>',
+            // Label element when inputs are not nested inside the label.
             'labelHorizontal' => '<label class="col-form-label {{labelColumnClass}}{{attrs.class}}"{{attrs}}>{{text}}</label>',
             'labelInline' => '<label class="sr-only{{attrs.class}}"{{attrs}}>{{text}}</label>',
+            // Label element used for radio and multi-checkbox inputs.
             'nestingLabel' => '{{hidden}}<label class="form-check-label{{attrs.class}}"{{attrs}}>{{input}} {{text}}</label>',
-            'legend' => '<legend>{{text}}</legend>',
+            // Legends created by allControls()
             'labelLegend' => '<label{{attrs}}>{{text}}</label>',
             'labelLegendHorizontal' => '<legend class="col-form-label pt-0 {{labelColumnClass}}{{attrs.class}}"{{attrs}}>{{text}}</legend>',
-            'option' => '<option value="{{value}}"{{attrs}}>{{text}}</option>',
-            'optgroup' => '<optgroup label="{{label}}"{{attrs}}>{{content}}</optgroup>',
+            // Select element,
             'select' => '<select name="{{name}}" class="form-control{{attrs.class}}" {{attrs}}>{{content}}</select>',
             'selectColumn' => '<div class="col-md-{{columnSize}}"><select name="{{name}}" class="form-control{{attrs.class}}" {{attrs}}>{{content}}</select></div>',
+            // Multi-select element,
             'selectMultiple' => '<select name="{{name}}[]" multiple="multiple" class="form-control{{attrs.class}}" {{attrs}}>{{content}}</select>',
+            // Radio input element,
             'radio' => '<input type="radio" class="form-check-input{{attrs.class}}" name="{{name}}" value="{{value}}"{{attrs}}>',
+            // Wrapping container for radio input/label,
             'radioWrapper' => '<div class="form-check">{{label}}</div>',
             'radioContainer' => '<fieldset class="form-group {{type}}{{required}}">{{content}}</fieldset>',
             'radioContainerHorizontal' => '<fieldset class="form-group {{type}}{{required}}"><div class="row">{{content}}</div></fieldset>',
@@ -109,7 +92,9 @@ class FormHelper extends \Cake\View\Helper\FormHelper
             'inlineRadioWrapper' => '<div class="form-check form-check-inline">{{label}}</div>',
             'inlineradioContainer' => '<fieldset class="form-group {{type}}{{required}}">{{content}}</fieldset>',
             'inlineradioContainerHorizontal' => '<fieldset class="form-group {{type}}{{required}}"><div class="row">{{content}}</div></fieldset>',
+            // Textarea input element,
             'textarea' => '<textarea name="{{name}}" class="form-control{{attrs.class}}" {{attrs}}>{{value}}</textarea>',
+            // Container for submit buttons.
             'submitContainer' => '<div class="form-group">{{content}}</div>',
             'submitContainerHorizontal' => '<div class="form-group row"><div class="{{labelColumnClass}}"></div><div class="{{inputColumnClass}}">{{content}}</div></div>',
 
@@ -123,7 +108,6 @@ class FormHelper extends \Cake\View\Helper\FormHelper
             'buttonGroupVertical' => '<div class="btn-group-vertical{{attrs.class}}" role="group"{{attrs}}>{{content}}</div>',
             'buttonToolbar' => '<div class="btn-toolbar{{attrs.class}}" role="toolbar"{{attrs}}>{{content}}</div>',
             'fancyFileInput' => '{{fileInput}}<div class="input-group"><div class="input-group-btn">{{button}}</div>{{input}}</div>',
-            'confirmJs' => '{{confirm}}',
         ],
         'buttons' => [
             'type' => 'primary',
@@ -142,21 +126,12 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      *
      * @var array
      */
-    protected $_defaultWidgets = [
-        '_default' => ['Cake\View\Widget\BasicWidget'],
-        'button' => ['Cake\View\Widget\ButtonWidget'],
-        'checkbox' => ['Cake\View\Widget\CheckboxWidget'],
-        'file' => ['Cake\View\Widget\FileWidget'],
+    protected $helperWidgets = [
         'fancyFile' => ['Bootstrap\View\Widget\FancyFileWidget', 'file', 'button', 'basic'],
         'label' => ['Bootstrap\View\Widget\LabelLegendWidget'],
-        'nestingLabel' => ['Cake\View\Widget\NestingLabelWidget'],
-        'multicheckbox' => ['Cake\View\Widget\MultiCheckboxWidget', 'nestingLabel'],
-        'radio' => ['Cake\View\Widget\RadioWidget', 'nestingLabel'],
         'inlineRadioNestingLabel' => ['Bootstrap\View\Widget\InlineRadioNestingLabelWidget'],
         'inlineRadio' => ['Bootstrap\View\Widget\InlineRadioWidget', 'nestingLabel'],
-        'select' => ['Cake\View\Widget\SelectBoxWidget'],
         'selectColumn' => ['Bootstrap\View\Widget\ColumnSelectBoxWidget'],
-        'textarea' => ['Cake\View\Widget\TextareaWidget'],
     ];
 
     /**
@@ -178,6 +153,10 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      */
     public function __construct(\Cake\View\View $View, array $config = [])
     {
+        // Default config. Use Hash::merge() to keep default values
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->_helperConfig);
+        // Default widgets. Use array_merge to avoid digit key problems
+        $this->_defaultWidgets = array_merge($this->_defaultWidgets, $this->helperWidgets);
         if (!isset($config['templateCallback'])) {
             $that = $this;
             $config['templateCallback'] = function ($name, $data) use ($that) {

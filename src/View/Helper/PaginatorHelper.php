@@ -12,6 +12,9 @@ declare(strict_types=1);
  */
 namespace Bootstrap\View\Helper;
 
+use Cake\Utility\Hash;
+use Cake\View\View;
+
 /**
  * Pagination Helper class for easy generation of pagination links.
  *
@@ -28,54 +31,44 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
     use EasyIconTrait;
 
     /**
-     * Other helpers used by PanelHelper.
+     * List of helpers used by this helper
      *
      * @var array
      */
-    public $helpers = [
-        'Url', 'Number', 'Html',
-    ];
+    public $helpers = ['Url', 'Number', 'Html', 'Form'];
 
     /**
-     * Default configuration for this class.
-     *
-     * Options: Holds the default options for pagination links.
-     *
-     * The values that may be specified are:
-     *
-     * - `url` Url of the action. See Router::url().
-     * - `url['sort']` the key that the recordset is sorted.
-     * - `url['direction']` Direction of the sorting (default: 'asc').
-     * - `url['page']` Page number to use in links.
-     * - `model` The name of the model.
-     * - `escape` Defines if the title field for the link should be escaped (default: true).
-     *
-     * Templates: the templates used by this class.
+     * Default configuration for this helper.
+     * Don't override parent::$_defaultConfig for robustness
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected $_helperConfig = [
         'options' => [],
         'templates' => [
             'nextActive' => '<li class="page-item"><a href="{{url}}" class="page-link">{{text}}</a></li>',
             'nextDisabled' => '<li class="page-item disabled"><a class="page-link">{{text}}</a></li>',
             'prevActive' => '<li class="page-item"><a href="{{url}}" class="page-link">{{text}}</a></li>',
             'prevDisabled' => '<li class="page-item disabled"><a class="page-link">{{text}}</a></li>',
-            'counterRange' => '{{start}} - {{end}} of {{count}}',
-            'counterPages' => '{{page}} of {{pages}}',
             'first' => '<li class="page-item"><a href="{{url}}" class="page-link">{{text}}</a></li>',
             'last' => '<li class="page-item"><a href="{{url}}" class="page-link">{{text}}</a></li>',
             'number' => '<li class="page-item"><a href="{{url}}" class="page-link">{{text}}</a></li>',
             'current' => '<li class="page-item active"><a href="{{url}}" class="page-link">{{text}}</a></li>',
             'ellipsis' => '<li class="ellipsis disabled"><a>&hellip;</a></li>',
-            'sort' => '<a href="{{url}}">{{text}}</a>',
-            'sortAsc' => '<a class="asc" href="{{url}}">{{text}}</a>',
-            'sortDesc' => '<a class="desc" href="{{url}}">{{text}}</a>',
-            'sortAscLocked' => '<a class="asc locked" href="{{url}}">{{text}}</a>',
-            'sortDescLocked' => '<a class="desc locked" href="{{url}}">{{text}}</a>',
         ],
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(View $View, array $config = [])
+    {
+        // Default config. Use Hash::merge() to keep default values
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->_helperConfig);
+
+        parent::__construct($View, $config);
+    }
 
     /**
      * Calculates the start and end for the pagination numbers.
