@@ -7,10 +7,11 @@
 /phpunit.xml
 /vendor
 *.mo
+.phpunit.result.cache
 
 # IDE and editor specific files #
 #################################
-
+/.idea
 
 # OS generated files #
 ######################

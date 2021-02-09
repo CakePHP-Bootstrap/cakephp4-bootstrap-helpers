@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  *
  * Licensed under The MIT License
@@ -14,64 +16,27 @@
  */
 namespace Bootstrap\View\Helper;
 
-/**
+use Cake\Utility\Hash;
+use Cake\View\View;/**
  * Html Helper class for easy use of HTML widgets.
- *
  * HtmlHelper encloses all methods needed while working with HTML pages.
  *
  * @property \Cake\View\Helper\UrlHelper $Url
- *
  * @link http://book.cakephp.org/3.0/en/views/helpers/html.html
  */
-class HtmlHelper extends \Cake\View\Helper\HtmlHelper {
-
+class HtmlHelper extends \Cake\View\Helper\HtmlHelper
+{
     use ClassTrait;
     use EasyIconTrait;
 
     /**
-     * Default config for the helper.
-     *
-     * ### Options:
-     *
-     * - `alert` Default options for alert.
-     * - `label` Default options for labels.
-     * - `progress` Default options for progress bar.
-     * - `tooltip` Default options for tooltips.
-     * - See [CakePHP documentation](https://api.cakephp.org/3.3/class-Cake.View.Helper.HtmlHelper.html#$_defaultConfig) for extra configuration options.
+     * Default configuration for this helper.
+     * Don't override parent::$_defaultConfig for robustness
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected $_helperConfig = [
         'templates' => [
-            'meta' => '<meta{{attrs}}/>',
-            'metalink' => '<link href="{{url}}"{{attrs}}/>',
-            'link' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
-            'mailto' => '<a href="mailto:{{url}}"{{attrs}}>{{content}}</a>',
-            'image' => '<img src="{{url}}"{{attrs}}/>',
-            'tableheader' => '<th{{attrs}}>{{content}}</th>',
-            'tableheaderrow' => '<tr{{attrs}}>{{content}}</tr>',
-            'tablecell' => '<td{{attrs}}>{{content}}</td>',
-            'tablerow' => '<tr{{attrs}}>{{content}}</tr>',
-            'block' => '<div{{attrs}}>{{content}}</div>',
-            'blockstart' => '<div{{attrs}}>',
-            'blockend' => '</div>',
-            'tag' => '<{{tag}}{{attrs}}>{{content}}</{{tag}}>',
-            'tagstart' => '<{{tag}}{{attrs}}>',
-            'tagend' => '</{{tag}}>',
-            'tagselfclosing' => '<{{tag}}{{attrs}}/>',
-            'para' => '<p{{attrs}}>{{content}}</p>',
-            'parastart' => '<p{{attrs}}>',
-            'css' => '<link rel="{{rel}}" href="{{url}}"{{attrs}}/>',
-            'style' => '<style{{attrs}}>{{content}}</style>',
-            'charset' => '<meta charset="{{charset}}"/>',
-            'ul' => '<ul{{attrs}}>{{content}}</ul>',
-            'ol' => '<ol{{attrs}}>{{content}}</ol>',
-            'li' => '<li{{attrs}}>{{content}}</li>',
-            'javascriptblock' => '<script{{attrs}}>{{content}}</script>',
-            'javascriptstart' => '<script>',
-            'javascriptlink' => '<script src="{{url}}"{{attrs}}></script>',
-            'javascriptend' => '</script>',
-
             // New templates for Bootstrap
             'icon' => '<i aria-hidden="true" class="glyphicon glyphicon-{{type}}{{attrs.class}}"{{attrs}}></i>',
             'label' => '<span class="label label-{{type}}{{attrs.class}}"{{attrs}}>{{content}}</span>',
@@ -91,25 +56,35 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
             'dropdownMenuItem' => '<li{{attrs}}>{{content}}</li>',
             'dropdownMenuHeader' => '<li role="presentation" class="dropdown-header{{attrs.class}}"{{attrs}}>{{content}}</li>',
             'dropdownMenuDivider' => '<li role="separator" class="divider{{attrs.class}}"{{attrs}}></li>',
-            'confirmJs' => '{{confirm}}'
         ],
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
         'tooltip' => [
             'tag'       => 'span',
             'placement' => 'right',
-            'toggle'    => 'tooltip'
+            'toggle'    => 'tooltip',
         ],
         'label' => [
-            'type' => 'default'
+            'type' => 'default',
         ],
         'alert' => [
             'type' => 'warning',
-            'close' => true
+            'close' => true,
         ],
         'progress' => [
-            'type' => 'primary'
+            'type' => 'primary',
         ]
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(View $View, array $config = [])
+    {
+        // Default config. Use Hash::merge() to keep default values
+        $this->_defaultConfig = Hash::merge($this->_defaultConfig, $this->_helperConfig);
+
+        parent::__construct($View, $config);
+    }
 
     /**
      * Create an icon using the template `icon`.
@@ -139,7 +114,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
      * {@inheritDoc}
      */
     public function link($title, $url = null, array $options = []):string {
-        list($options, $easyIcon) = $this->_easyIconOption($options);
+        [$options, $easyIcon] = $this->_easyIconOption($options);
         return $this->_injectIcon(parent::link($title, $url, $options), $easyIcon);
     }
 
