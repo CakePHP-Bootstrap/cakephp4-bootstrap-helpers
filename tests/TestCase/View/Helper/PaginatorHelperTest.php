@@ -57,7 +57,7 @@ class PaginatorHelperTest extends TestCase
             ],
         ]);
         $request = $request->withAttribute('paging', [
-            'Article' => [
+            'Client' => [
                 'page' => 1,
                 'current' => 9,
                 'count' => 62,
@@ -77,8 +77,9 @@ class PaginatorHelperTest extends TestCase
         $this->Paginator = new PaginatorHelper($this->View);
 
         Router::reload();
-        Router::connect('/:controller/:action/*');
-        Router::connect('/:plugin/:controller/:action/*');
+        $builder = Router::createRouteBuilder('/');
+        $builder->connect('/{controller}/{action}/*');
+        $builder->connect('/{plugin}/{controller}/{action}/*');
         Router::setRequest($request);
 
         $this->locale = I18n::getLocale();

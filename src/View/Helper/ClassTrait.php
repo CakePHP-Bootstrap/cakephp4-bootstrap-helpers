@@ -95,5 +95,3 @@ trait ClassTrait {
     }
 
 }
-
-?>

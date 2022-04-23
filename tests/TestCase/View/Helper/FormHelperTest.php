@@ -194,10 +194,11 @@ class FormHelperTest extends TestCase
                 'class' => 'col-md-6 col-sm-8'
             ]],
             ['input' => [
-                'type'  => 'text',
-                'class' => 'form-control has-error',
-                'name'  => 'Article[title]',
-                'id'    => 'article-title'
+                'type'         => 'text',
+                'class'        => 'form-control has-error',
+                'name'         => 'Article[title]',
+                'id'           => 'article-title',
+                'aria-invalid' => 'true'
             ]],
             '/div',
             ['span' => [
@@ -329,7 +330,30 @@ class FormHelperTest extends TestCase
 
     public function testInputSelect()
     {
-        $this->markTestIncomplete();
+        $fieldName = 'color';
+        $options   = [
+            'type' => 'select',
+            'options' => [
+                'red' => 'Red',
+                'blue' => 'Blue',
+                'green' => 'Green'
+            ]
+        ];
+
+        $expected = [
+            ['div' => ['class' => 'form-group select']],
+            ['label' => ['class' => 'control-label', 'for' => 'color']],
+            'Color',
+            '/label',
+            ['select' => ['name' => 'color', 'class' => 'form-control', 'id' => 'color']],
+            ['option' => ['value' => 'red']], 'Red', '/option',
+            ['option' => ['value' => 'blue']], 'Blue', '/option',
+            ['option' => ['value' => 'green']], 'Green', '/option',
+            '/select',
+            '/div',
+        ];
+        $result = $this->form->control($fieldName, $options);
+        $this->assertHtml($expected, $result);
     }
 
     public function testInputRadio()
@@ -509,7 +533,22 @@ class FormHelperTest extends TestCase
 
     public function testInputCheckbox()
     {
-        $this->markTestIncomplete();
+        $fieldName = 'color';
+        $options   = [
+            'type' => 'checkbox',
+        ];
+
+        $expected = [
+            ['div' => ['class' => 'checkbox ']],
+            ['input' => ['type' => 'hidden', 'name' => 'color', 'class' => 'form-control', 'value' => '0']],
+            ['label' => ['for' => 'color']],
+            ['input' => ['type' => 'checkbox', 'name' => 'color', 'value' => '1', 'id' => 'color']],
+            'Color',
+            '/label',
+            '/div',
+        ];
+        $result = $this->form->control($fieldName, $options);
+        $this->assertHtml($expected, $result);
     }
 
     public function testInputGroup()
@@ -627,8 +666,7 @@ class FormHelperTest extends TestCase
         $this->_testInput(
             $expected,
             $fieldName,
-            $options + ['prepend' => $this->form->button('Go!')],
-            true
+            $options + ['prepend' => $this->form->button('Go!')]
         );
 
         // Test with append button

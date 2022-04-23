@@ -482,5 +482,3 @@ class ModalHelper extends Helper {
     }
 
 }
-
-?>

@@ -120,5 +120,3 @@ class Matching {
         return false;
     }
 }
-
-?>
