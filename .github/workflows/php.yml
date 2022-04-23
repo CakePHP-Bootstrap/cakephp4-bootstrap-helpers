@@ -2,9 +2,9 @@ name: PHP Composer
 
 on:
   push:
-    branches: [ all ]
+    branches: [ v3.x-cakephp4.3 ]
   pull_request:
-    branches: [ all ]
+    branches: [ v3.x-cakephp4.3 ]
 
 permissions:
   contents: read
