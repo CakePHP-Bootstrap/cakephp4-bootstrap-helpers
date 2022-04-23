@@ -1,10 +1,6 @@
 name: PHP Composer
 
-on:
-  push:
-    branches: [ v3.x-cakephp4.3 ]
-  pull_request:
-    branches: [ v3.x-cakephp4.3 ]
+on: [push, pull_request]
 
 permissions:
   contents: read
