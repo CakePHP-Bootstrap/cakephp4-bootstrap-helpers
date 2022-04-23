@@ -57,6 +57,70 @@ class HtmlHelperTest extends TestCase
         ];
         $this->assertHtml($expected, $result);
 
+        // Tag span
+        $result = $this->html->icon('home', [
+            'id' => 'my-id',
+            'class' => 'my-class',
+            'tag' => 'span',
+        ]);
+        $expected = [
+            ['span' => [
+                'aria-hidden' => 'true',
+                'class' => 'glyphicon glyphicon-home my-class',
+                'id' => 'my-id'
+            ]],
+            '/span'
+        ];
+        $this->assertHtml($expected, $result);
+
+        // Font Awesome icon
+        $result = $this->html->icon('home', [
+            'id' => 'my-id',
+            'class' => 'my-class',
+            'font' => $this->html::FONT_AWESOME,
+        ]);
+        $expected = [
+            ['i' => [
+                'aria-hidden' => 'true',
+                'class' => 'fa fa-home my-class',
+                'id' => 'my-id'
+            ]],
+            '/i'
+        ];
+        $this->assertHtml($expected, $result);
+
+        // Font Awesome 5 Solid icon
+        $result = $this->html->icon('home', [
+            'id' => 'my-id',
+            'class' => 'my-class',
+            'font' => $this->html::FONT_AWESOME5_SOLID,
+        ]);
+        $expected = [
+            ['i' => [
+                'aria-hidden' => 'true',
+                'class' => 'fas fa-home my-class',
+                'id' => 'my-id'
+            ]],
+            '/i'
+        ];
+        $this->assertHtml($expected, $result);
+
+        // Font Awesome 6 Solid icon
+        $result = $this->html->icon('home', [
+            'id' => 'my-id',
+            'class' => 'my-class',
+            'font' => $this->html::FONT_AWESOME6_SOLID,
+        ]);
+        $expected = [
+            ['i' => [
+                'aria-hidden' => 'true',
+                'class' => 'fa-solid fa-home my-class',
+                'id' => 'my-id'
+            ]],
+            '/i'
+        ];
+        $this->assertHtml($expected, $result);
+
         // Custom templates
         $oldTemplates = $this->html->getTemplates();
         $this->html->setTemplates([
