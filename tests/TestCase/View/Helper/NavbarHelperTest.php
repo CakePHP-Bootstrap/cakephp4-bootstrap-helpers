@@ -40,6 +40,7 @@ class NavbarHelperTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->loadRoutes();
         $view = new View();
         $view->loadHelper('Html', [
             'className' => 'Bootstrap.Html',
@@ -291,8 +292,6 @@ class NavbarHelperTest extends TestCase
 
     public function testMenu()
     {
-        $this->loadRoutes();
-
         // TODO: Add test for this...
         $this->navbar->setConfig('autoActiveLink', false);
         // Basic test:
@@ -343,8 +342,6 @@ class NavbarHelperTest extends TestCase
 
     public function testAutoActiveLink()
     {
-        $this->loadRoutes();
-
         $this->navbar->create(null);
         $this->navbar->beginMenu('');
 
@@ -362,7 +359,7 @@ class NavbarHelperTest extends TestCase
         $this->navbar->setConfig('autoActiveLink', true);
         $result = $this->navbar->link('Link', '/pages');
         $expected = [
-            ['li' => []],
+            ['li' => ['class' => 'active']],
             ['a' => ['href' => '/pages']], 'Link', '/a',
             '/li'
         ];
@@ -390,11 +387,6 @@ class NavbarHelperTest extends TestCase
 
         // Customt tests
 
-        Router::scope('/', function (RouteBuilder $routes) {
-            $routes->fallbacks(DashedRoute::class);
-        });
-        Router::fullBaseUrl('/cakephp/pages/view/1');
-        Configure::write('App.fullBaseUrl', 'http://localhost');
         $request = new ServerRequest();
         $request = $request
             ->withAttribute('params', [
@@ -419,20 +411,13 @@ class NavbarHelperTest extends TestCase
 
         $result = $this->navbar->link('Link', '/pages');
         $expected = [
-            ['li' => []],
+            ['li' => ['class' => 'active']],
             ['a' => ['href' => '/cakephp/pages']], 'Link', '/a',
             '/li'
         ];
         $this->assertHtml($expected, $result);
 
         // More custom tests...
-        Router::scope('/', function (RouteBuilder $routes) {
-            $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']); // (1)
-            $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']); // (2)
-            $routes->fallbacks(DashedRoute::class);
-        });
-        Router::fullBaseUrl('');
-        Configure::write('App.fullBaseUrl', 'http://localhost');
         $request = new ServerRequest(['url' => '/pages/faq']);
         $request = $request
             ->withAttribute('params', [

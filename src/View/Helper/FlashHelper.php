@@ -55,5 +55,3 @@ class FlashHelper extends \Cake\View\Helper\FlashHelper {
     }
 
 }
-
-?>

@@ -29,8 +29,6 @@ class UrlComparerTraitTest extends TestCase
      */
     public $trait;
 
-    private $_fullBaseUrl;
-
     /**
      * Setup
      *
@@ -39,29 +37,19 @@ class UrlComparerTraitTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        // set Router fullBaseUrl
-        $this->_fullBaseUrl = Router::fullBaseUrl();
-        Router::fullBaseUrl('http://localhost');
-
-        Configure::write('debug', true);
-
-        Router::scope('/', function (RouteBuilder $routes) {
-            $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']); // (1)
-            $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']); // (2)
-            $routes->fallbacks(DashedRoute::class);
-        });
-        Router::prefix('admin', function ($routes) {
-            $routes->fallbacks(DashedRoute::class);
-        });
+        $this->loadRoutes();
         $this->trait = new PublicUrlComparerTrait();
-    }
 
-    public function tearDown(): void
-    {
-        // reset router fullBaseUrl
-        Router::fullBaseUrl($this->_fullBaseUrl);
-        parent::tearDown();
+        Router::setRequest(new ServerRequest([
+            'params' => [
+                'action' => 'view',
+                'plugin' => null,
+                'controller' => 'pages',
+                'pass' => ['1']
+            ],
+            'url' => '/pages/view/1',
+            'base' => '/cakephp',
+        ]));
     }
 
     public function testNormalizedWithoutPass()
@@ -78,17 +66,6 @@ class UrlComparerTraitTest extends TestCase
             $nm = $this->trait->normalize($lhs, ['pass' => false]);
             $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
         }
-        $request = new ServerRequest([
-            'url' => '/pages/view/1',
-            'base' => '/cakephp',
-            'params' => [
-                'action' => 'view',
-                'plugin' => null,
-                'controller' => 'pages',
-                'pass' => ['1'],
-            ],
-        ]);
-        Router::setRequest($request);
         $tests = [
             ['/pages', '/pages/display'],
             ['/pages/display/test', '/pages/display'],
@@ -146,17 +123,6 @@ class UrlComparerTraitTest extends TestCase
             $nm = $this->trait->normalize($lhs);
             $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
         }
-        $request = new ServerRequest([
-            'url' => '/pages/view/1',
-            'base' => '/cakephp',
-            'params' => [
-                'action' => 'view',
-                'plugin' => null,
-                'controller' => 'pages',
-                'pass' => ['1'],
-            ],
-        ]);
-        Router::setRequest($request);
         $tests = [
             ['/pages', '/pages/display'],
             ['/pages/test', '/pages/display/test'],
@@ -240,17 +206,6 @@ class UrlComparerTraitTest extends TestCase
 
     public function testFullBase()
     {
-        $request = new ServerRequest([
-            'url' => '/pages/view/1',
-            'base' => '/cakephp',
-            'params' => [
-                'action' => 'view',
-                'plugin' => null,
-                'controller' => 'pages',
-                'pass' => ['1'],
-            ],
-        ]);
-        Router::setRequest($request);
         $urlsMatchTrue = [
             // Test root
             ['/', '/'],
@@ -285,24 +240,6 @@ class UrlComparerTraitTest extends TestCase
             ['/cakephp/admin/users/edit/1', '/admin/users/edit'],
         ];
         $this->_testCompare($urlsMatchTrue, $urlsMatchFalse);
-
-        $request = new ServerRequest(['url' => '/pages/faq']);
-        $request = $request
-            ->withAttribute('params', [
-                'action' => 'display',
-                'plugin' => null,
-                'controller' => 'pages',
-                'pass' => ['faq'],
-            ])
-            ->withAttribute('base', '/cakephp');
-        Router::setRequest($request);
-        $this->_testCompare([
-            ['/pages/faq', []],
-            [['controller' => 'Pages', 'action' => 'display', 'faq'], []],
-            ['/pages', []],
-        ], [
-            ['/pages/credits', []],
-        ]);
     }
 
     public function testCompareCustom()

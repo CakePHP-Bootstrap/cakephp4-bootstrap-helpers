@@ -457,5 +457,3 @@ aria-haspopup="true" aria-expanded="false">{{content}}{{caret}}</a>',
     }
 
 }
-
-?>

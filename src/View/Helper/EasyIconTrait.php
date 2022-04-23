@@ -30,10 +30,10 @@ trait EasyIconTrait {
     /**
      * Remove the `easyIcon` option from the given array and return it together with
      * the array.
-     * 
+     *
      * @param array $options Array of options from which the easy-icon option should
      * be extracted.
-     * 
+     *
      * @return array An array containing the options and the easy-icon option.
      */
     protected function _easyIconOption(array $options) {
@@ -91,7 +91,7 @@ trait EasyIconTrait {
 
     /**
      * Inject icon into the given string.
-     * 
+     *
      * @param string $input Input string where icon should be injected following the
      * easy-icon process.
      * @param bool $easyIcon Boolean indicating if the easy-icon process should be
@@ -105,5 +105,3 @@ trait EasyIconTrait {
     }
 
 }
-
-?>

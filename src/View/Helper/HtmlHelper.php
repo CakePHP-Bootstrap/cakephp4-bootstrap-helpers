@@ -17,7 +17,9 @@ declare(strict_types=1);
 namespace Bootstrap\View\Helper;
 
 use Cake\Utility\Hash;
-use Cake\View\View;/**
+use Cake\View\View;
+
+/**
  * Html Helper class for easy use of HTML widgets.
  * HtmlHelper encloses all methods needed while working with HTML pages.
  *
@@ -488,5 +490,3 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
     }
 
 }
-
-?>

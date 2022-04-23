@@ -21,19 +21,17 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
-use Cake\Routing\Router;
 
-// phpcs:disable
-/** @var \Cake\Routing\RouteBuilder $routes */
-$routes->setRouteClass(DashedRoute::class);
-// phpcs:enable
-
-Router::extensions('json');
-
-$routes->scope('/', function (RouteBuilder $routes) {
-    $routes->connect('/', ['controller' => 'pages', 'action' => 'display', 'home']);
-    $routes->connect('/some_alias', ['controller' => 'tests_apps', 'action' => 'some_method']);
-    $routes->fallbacks();
-});
+return static function (RouteBuilder $routes) {
+    $routes->setExtensions('json');
+    $routes->scope('/', function (RouteBuilder $builder) {
+        $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']); // (1)
+        $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']); // (2)
+        $builder->connect('/some_alias', ['controller' => 'tests_apps', 'action' => 'some_method']);
+        $builder->fallbacks();
+    });
+    $routes->prefix('admin', function ($routes) {
+        $routes->fallbacks();
+    });
+};

@@ -6,6 +6,7 @@
 /composer.lock
 /phpunit.xml
 /vendor
+/tmp
 *.mo
 .phpunit.result.cache
 

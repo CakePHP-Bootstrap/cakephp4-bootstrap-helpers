@@ -633,5 +633,3 @@ class PanelHelper extends Helper {
     }
 
 }
-
-?>
