@@ -46,12 +46,13 @@ class UrlComparerTraitTest extends TestCase
 
         Configure::write('debug', true);
 
-        Router::scope('/', function (RouteBuilder $routes) {
+        $routeBuilder = Router::createRouteBuilder('/');
+        $routeBuilder->scope('/', function (RouteBuilder $routes) {
             $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']); // (1)
             $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']); // (2)
             $routes->fallbacks(DashedRoute::class);
         });
-        Router::prefix('admin', function ($routes) {
+        $routeBuilder->prefix('admin', function ($routes) {
             $routes->fallbacks(DashedRoute::class);
         });
         $this->trait = new PublicUrlComparerTrait();

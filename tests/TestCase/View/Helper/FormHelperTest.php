@@ -192,6 +192,7 @@ class FormHelperTest extends TestCase
                 'class' => 'form-control is-invalid',
                 'name' => 'Article[title]',
                 'id' => 'article-title',
+                'aria-invalid' => 'true',
             ]],
             ['div' => [
                 'class' => 'error-message invalid-feedback',
@@ -277,7 +278,7 @@ class FormHelperTest extends TestCase
         }
         $this->form->create(null, $formOptions);
         $result = $this->form->control($fieldName, $options);
-        $assert = $this->assertHtml($expected, $result, $debug);
+        $this->assertHtml($expected, $result, $debug);
     }
 
     public function testInput()
@@ -416,6 +417,7 @@ class FormHelperTest extends TestCase
                 'name' => $fieldName,
                 'value' => '',
                 'class' => 'form-control',
+                'id' => $fieldName,
             ]],
         ];
         foreach ($options['options'] as $key => $value) {
@@ -509,6 +511,7 @@ class FormHelperTest extends TestCase
                 'name' => $fieldName,
                 'value' => '',
                 'class' => 'form-control',
+                'id' => $fieldName,
             ]],
         ];
         foreach ($options['options'] as $key => $value) {

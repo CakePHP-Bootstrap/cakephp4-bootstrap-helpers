@@ -51,7 +51,7 @@ class NavbarHelperTest extends TestCase
     public function testCreate()
     {
         // Test default:
-        $result = $this->navbar->create(null);
+        $result = $this->navbar->create();
         $expected = [
             ['nav' => [
                 'class' => 'navbar navbar-light bg-light navbar-expand-lg',
@@ -176,7 +176,7 @@ class NavbarHelperTest extends TestCase
     public function testEnd()
     {
         // Test standard end (responsive)
-        $this->navbar->create(null);
+        $this->navbar->create();
         $result = $this->navbar->end();
         $expected = ['/div', '/nav'];
         $this->assertHtml($expected, $result);
@@ -247,7 +247,7 @@ class NavbarHelperTest extends TestCase
         // TODO: Add test for this...
         $this->navbar->setConfig('autoActiveLink', false);
         // Basic test:
-        $this->navbar->create(null);
+        $this->navbar->create();
         $result = $this->navbar->beginMenu(['class' => 'my-menu']);
         $result .= $this->navbar->link('Link', '/', ['class' => 'active']);
         $result .= $this->navbar->link('Blog', ['controller' => 'pages', 'action' => 'test']);
@@ -293,7 +293,7 @@ class NavbarHelperTest extends TestCase
     public function testAutoActiveLink()
     {
         $this->loadRoutes();
-        $this->navbar->create(null);
+        $this->navbar->create();
         $this->navbar->beginMenu('');
 
         // Active and correct link:
@@ -337,10 +337,10 @@ class NavbarHelperTest extends TestCase
         $this->assertHtml($expected, $result);
 
         // Customt tests
-
-        Router::scope('/', function (RouteBuilder $routes) {
-            $routes->fallbacks(DashedRoute::class);
-        });
+        Router::createRouteBuilder('/')
+            ->scope('/', function (RouteBuilder $routes) {
+                $routes->fallbacks(DashedRoute::class);
+            });
         Router::fullBaseUrl('/cakephp/pages/view/1');
         Configure::write('App.fullBaseUrl', 'http://localhost');
         $request = new ServerRequest();
@@ -374,11 +374,12 @@ class NavbarHelperTest extends TestCase
         $this->assertHtml($expected, $result);
 
         // More custom tests...
-        Router::scope('/', function (RouteBuilder $routes) {
-            $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']); // (1)
-            $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']); // (2)
-            $routes->fallbacks(DashedRoute::class);
-        });
+        Router::createRouteBuilder('/')
+            ->scope('/', function (RouteBuilder $routes) {
+                $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']); // (1)
+                $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']); // (2)
+                $routes->fallbacks(DashedRoute::class);
+            });
         Router::fullBaseUrl('');
         Configure::write('App.fullBaseUrl', 'http://localhost');
         $request = new ServerRequest(['url' => '/pages/faq']);
