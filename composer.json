@@ -10,7 +10,7 @@
         "source": "https://github.com/Holt59/cakephp3-bootstrap-helpers"
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.4.0",
         "cakephp/cakephp": "^4.0",
         "cakephp/plugin-installer": "^1.0"
     },
@@ -41,5 +41,11 @@
         "cs-fix": "phpcbf --colors -p src/ tests/"
     },
     "prefer-stable": true,
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "cakephp/plugin-installer": true
+        }
+    }
 }
