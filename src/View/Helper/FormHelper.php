@@ -340,12 +340,12 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      * Concatenates and wraps `$input`, `$prepend` and `$append` inside an input group.
      *
      * @param string $input The input content.
-     * @param string $prepend The content to prepend to `$input`.
-     * @param string $append The content to append to `$input`.
+     * @param string|null $prepend The content to prepend to `$input`.
+     * @param string|null $append The content to append to `$input`.
      * @return string A string containing the three elements concatenated an wrapped inside
      *                  an input group `<div>`.
      */
-    protected function _wrap(string $input, string $prepend, string $append): string
+    protected function _wrap(string $input, ?string $prepend, ?string $append): string
     {
         return $this->formatTemplate('inputGroup', [
             'inputGroupStart' => $this->formatTemplate('inputGroupStart', [
