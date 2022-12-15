@@ -11,6 +11,7 @@
 
 # IDE and editor specific files #
 #################################
+/.idea
 
 
 # OS generated files #
