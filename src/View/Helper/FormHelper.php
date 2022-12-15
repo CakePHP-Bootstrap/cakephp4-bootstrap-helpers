@@ -22,7 +22,6 @@ use Cake\Utility\Hash;
  *
  * @property \Bootstrap\View\Helper\HtmlHelper $Html
  * @property \Cake\View\Helper\UrlHelper $Url
- *
  * @link http://book.cakephp.org/3.0/en/views/helpers/form.html
  */
 class FormHelper extends \Cake\View\Helper\FormHelper
@@ -48,6 +47,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      */
     protected $_helperConfig = [
         'errorClass' => 'is-invalid',
+        // phpcs:disable Generic.Files.LineLength.TooLong
         'templates' => [
             // Used for checkboxes in checkbox() and multiCheckbox().
             'checkbox' => '<input type="checkbox" class="form-check-input{{attrs.class}}" name="{{name}}" value="{{value}}"{{attrs}}>',
@@ -109,6 +109,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
             'buttonToolbar' => '<div class="btn-toolbar{{attrs.class}}" role="toolbar"{{attrs}}>{{content}}</div>',
             'fancyFileInput' => '{{fileInput}}<div class="input-group"><div class="input-group-btn">{{button}}</div>{{input}}</div>',
         ],
+        // phpcs:enable
         'buttons' => [
             'type' => 'primary',
         ],
@@ -149,7 +150,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
     public $inline = false;
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function __construct(\Cake\View\View $View, array $config = [])
     {
@@ -484,7 +485,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function _getInput(string $fieldName, array $options)
     {
@@ -501,7 +502,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function _inputLabel(string $fieldName, $label = null, array $options = []): string
     {
@@ -531,7 +532,6 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      * @param string $fieldName Name of a field, like this "modelname.fieldname"
      * @param array|\Traversable $options Radio button options array.
      * @param array $attributes Array of attributes.
-     *
      * @return string Completed radio widget set.
      */
     public function inlineRadio(string $fieldName, $options = [], array $attributes = []): string
@@ -694,7 +694,6 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      * @param array $menu HTML elements corresponding to menu options (which will be wrapped
      * into `<li>` tag). To add separator, pass 'divider'. See `BootstrapHtml::dropdown()`.
      * @param array $options Array of options for the button. See `button()`.
-     *
      * @return string A HTML string containing the button dropdown.
      */
     public function dropdownButton(string $title, array $menu = [], array $options = []): string

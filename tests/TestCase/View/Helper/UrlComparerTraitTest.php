@@ -76,7 +76,7 @@ class UrlComparerTraitTest extends TestCase
         foreach ($tests as $test) {
             [$lhs, $rhs] = $test;
             $nm = $this->trait->normalize($lhs, ['pass' => false]);
-            $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
+            $this->assertTrue($nm == $rhs, sprintf('%s is not normalized as %s but %s.', $lhs, $rhs, $nm));
         }
         $request = new ServerRequest([
             'url' => '/pages/view/1',
@@ -129,7 +129,7 @@ class UrlComparerTraitTest extends TestCase
         foreach ($tests as $test) {
             [$lhs, $rhs] = $test;
             $nm = $this->trait->normalize($lhs, ['pass' => false]);
-            $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
+            $this->assertTrue($nm == $rhs, sprintf('%s is not normalized as %s but %s.', $lhs, $rhs, $nm));
         }
     }
 
@@ -144,7 +144,7 @@ class UrlComparerTraitTest extends TestCase
         foreach ($tests as $test) {
             [$lhs, $rhs] = $test;
             $nm = $this->trait->normalize($lhs);
-            $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
+            $this->assertTrue($nm == $rhs, sprintf('%s is not normalized as %s but %s.', $lhs, $rhs, $nm));
         }
         $request = new ServerRequest([
             'url' => '/pages/view/1',
@@ -196,7 +196,7 @@ class UrlComparerTraitTest extends TestCase
         foreach ($tests as $test) {
             [$lhs, $rhs] = $test;
             $nm = $this->trait->normalize($lhs);
-            $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
+            $this->assertTrue($nm == $rhs, sprintf('%s is not normalized as %s but %s.', $lhs, $rhs, $nm));
         }
     }
 

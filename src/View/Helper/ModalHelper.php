@@ -43,6 +43,7 @@ class ModalHelper extends Helper
      * @var array
      */
     protected $_defaultConfig = [
+        // phpcs:disable Generic.Files.LineLength.TooLong
         'templates' => [
             'modalStart' => '<div class="modal fade{{attrs.class}}" tabindex="-1" role="dialog"{{attrs}} aria-hidden="true">{{dialogStart}}{{contentStart}}',
             'modalEnd' => '{{contentEnd}}{{dialogEnd}}</div>',
@@ -62,6 +63,7 @@ class ModalHelper extends Helper
             'footerEnd' => '</div>',
             'modalFooterCloseButton' => '<button type="button" class="btn btn-default{{attrs.class}}" data-dismiss="modal"{{attrs}}>{{content}}</button>',
         ],
+        // phpcs:enable
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
     ];
 

@@ -48,7 +48,6 @@ class FlexibleStringTemplate extends EnhancedStringTemplate
      *
      * @param string $name The template name.
      * @param array  $data The data to insert.
-     *
      * @return string
      */
     public function format($name, array $data): string
@@ -63,7 +62,6 @@ class FlexibleStringTemplate extends EnhancedStringTemplate
      *
      * @param string $name The original name of the template.
      * @param array $data The data to update.
-     *
      * @return string The new name of the template.
      */
     protected function _getTemplateName($name, array &$data = [])

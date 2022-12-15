@@ -24,7 +24,6 @@ trait ClassTrait
      * @param array        $options Array of options/attributes to add a class to.
      * @param string|array $class   The class names to be added.
      * @param string       $key     The key to use for class (default to `'class'`).
-     *
      * @return array Array of options with `$key` set or updated.
      */
     public function addClass(array $options = [], $class = null, $key = 'class'): array
@@ -54,7 +53,6 @@ trait ClassTrait
      *
      * @param array $options The initial options with btype and/or
      * size, block values.
-     *
      * @return array The new options with class values (btn, and btn-* according to
      * initial options).
      */
@@ -103,7 +101,6 @@ trait ClassTrait
      * Check weither the specified array is associative or not.
      *
      * @param array $array The array to check.
-     *
      * @return bool `true` if the array is associative, `false` otherwize.
      */
     protected function _isAssociativeArray($array)

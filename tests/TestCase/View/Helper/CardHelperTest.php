@@ -49,8 +49,8 @@ class CardHelperTest extends TestCase
 
     public function testCreate()
     {
-        $title = "My Modal";
-        $id = "myModalId";
+        $title = 'My Modal';
+        $id = 'myModalId';
         // Test standard create with title
         $result = $this->card->create($title);
         $this->assertHtml([

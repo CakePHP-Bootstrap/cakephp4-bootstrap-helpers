@@ -46,6 +46,7 @@ class CardHelper extends Helper
      * @var array
      */
     protected $_defaultConfig = [
+        // phpcs:disable Generic.Files.LineLength.TooLong
         'templates' => [
             'cardGroupStart' => '<div role="tablist"{{attrs}}>',
             'cardGroupEnd' => '</div>',
@@ -63,6 +64,7 @@ class CardHelper extends Helper
             'footerStart' => '<div class="card-footer{{attrs.class}}"{{attrs}}>',
             'footerEnd' => '</div>',
         ],
+        // phpcs:enable
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
         'collapsible' => false,
     ];
@@ -89,9 +91,7 @@ class CardHelper extends Helper
     protected $_groupCount = 0;
 
     /**
-     * Create card helper
-     *
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function __construct(\Cake\View\View $View, array $config = [])
     {

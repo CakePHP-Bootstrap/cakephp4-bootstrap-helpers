@@ -35,7 +35,6 @@ class StackedStates
      * Construct a new StackState with the given default values.
      *
      * @param mixed $defaults Default values for the states.
-     *
      */
     public function __construct($defaults = [])
     {
@@ -114,7 +113,6 @@ class StackedStates
      * Get a value from the current state.
      *
      * @param mixed $name Name of the attribute to retrieve.
-     *
      * @return mixed Value retrieved from the current state.
      */
     public function getValue($name)

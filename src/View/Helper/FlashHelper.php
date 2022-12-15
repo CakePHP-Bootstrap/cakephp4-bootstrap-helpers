@@ -28,7 +28,7 @@ class FlashHelper extends \Cake\View\Helper\FlashHelper
     protected array $_bootstrapTemplates = ['info', 'error', 'success', 'warning'];
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function render(string $key = 'flash', array $options = []): ?string
     {

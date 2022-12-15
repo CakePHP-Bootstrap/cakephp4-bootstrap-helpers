@@ -42,8 +42,8 @@ class ModalHelperTest extends TestCase
 
     public function testCreate()
     {
-        $title = "My Modal";
-        $id = "myModalId";
+        $title = 'My Modal';
+        $id = 'myModalId';
         // Test standard create without ID
         $result = $this->modal->create($title);
         $expected = [

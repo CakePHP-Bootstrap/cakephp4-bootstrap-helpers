@@ -26,7 +26,6 @@ class Matching
      * @param string $subject String within which to match the tag.
      * @param string $content Content within the tag, if one was found.
      * @param array $attrs Attributes of the tag, if one was found.
-     *
      * @return bool True if the given tag was found, false otherwize.
      **/
     public static function matchTag($tag, $subject, &$content = null, &$attrs = null)
@@ -61,7 +60,6 @@ class Matching
      * @param string $attr Name of the attribute.
      * @param string $value Value of the attribute.
      * @param string $subject String to search.
-     *
      * @return bool True if an attribute with the given name/value was found, false
      * otherwize.
      **/
@@ -86,7 +84,6 @@ class Matching
      * @param string $attrs Array [name => value] for the attributes to search for, or null
      * if not relevant. `value` can be null if only the name should be looked.
      * @param string $subject String to search.
-     *
      * @return bool True if the given tag or given attribute is found.
      **/
     public static function findTagOrAttribute($tag, $attrs, $subject)
