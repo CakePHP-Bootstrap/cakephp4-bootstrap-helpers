@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 /**
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE file
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  * @link        https://holt59.github.io/cakephp3-bootstrap-helpers/
  */
+declare(strict_types=1);
+
 namespace Bootstrap\View\Helper;
 
 use Cake\View\Helper;
@@ -17,7 +17,6 @@ use Cake\View\StringTemplateTrait;
 
 /**
  * Navbar helper library.
- *
  * Automatic generation of Bootstrap HTML navbars.
  *
  * @property \Bootstrap\View\Helper\FormHelper $Form
@@ -42,7 +41,6 @@ class NavbarHelper extends Helper
 
     /**
      * Default configuration for the helper.
-     *
      * - `autoActiveLink` Set to `true` to automatically add `active` class
      * when given URL for a link matches the current URL. Default is `true`.
      * - `autoButtonLink` Set to  true` to automatically create buttons instead
@@ -51,6 +49,7 @@ class NavbarHelper extends Helper
      * @var array
      */
     protected $_defaultConfig = [
+        // phpcs:disable Generic.Files.LineLength.TooLong
         'templates' => [
             'navbarStart' => '<nav class="navbar{{attrs.class}}"{{attrs}}>{{containerStart}}{{header}}{{responsiveStart}}',
             'navbarEnd' => '{{responsiveEnd}}{{containerEnd}}</nav>',
@@ -60,7 +59,7 @@ class NavbarHelper extends Helper
             'responsiveEnd' => '</div>',
             'header' => '{{brand}}{{toggleButton}}',
             'toggleButton' =>
-    '<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#{{id}}" aria-controls="{{id}}" aria-label="{{label}}" aria-expanded="false">
+                '<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#{{id}}" aria-controls="{{id}}" aria-label="{{label}}" aria-expanded="false">
     <span class="navbar-toggler-icon"></span>
 </button>',
             'brand' => '<a class="navbar-brand{{attrs.class}}" href="{{url}}"{{attrs}}>{{content}}</a>',
@@ -68,7 +67,7 @@ class NavbarHelper extends Helper
             'dropdownMenuStart' => '<div class="dropdown-menu{{attrs.class}}"{{attrs}}>',
             'dropdownMenuEnd' => '</div>',
             'dropdownLink' =>
-    '<a href="{{url}}" class="nav-link dropdown-toggle{{attrs.class}}" data-toggle="dropdown" role="button"
+                '<a href="{{url}}" class="nav-link dropdown-toggle{{attrs.class}}" data-toggle="dropdown" role="button"
 aria-haspopup="true" aria-expanded="false">{{content}}</a>',
             'innerMenuStart' => '<li class="nav-item dropdown{{attrs.class}}"{{attrs}}>{{dropdownLink}}{{dropdownMenuStart}}',
             'innerMenuEnd' => '{{dropdownMenuEnd}}</li>',
@@ -86,6 +85,7 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
             'outerMenuItemLinkActive' => '<a href="{{url}}" class="nav-link{{attrs.class}}"{{attrs}}>{{content}}</a>',
             'navbarText' => '<span class="navbar-text{{attrs.class}}"{{attrs}}>{{content}}</span>',
         ],
+        // phpcs:enable
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
         'autoActiveLink' => true,
     ];
@@ -105,8 +105,14 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
     protected $_level = 0;
 
     /**
-     * Create a new navbar.
+     * Wrap the inner content in the _container or ignore if false.
      *
+     * @var string|bool
+     */
+    protected $_container = false;
+
+    /**
+     * Create a new navbar.
      * ### Options:
      * - `container` Wrap the inner content inside a container. Default is `false`.
      * - `fixed` [Fixed navbar](https://getbootstrap.com/docs/4.0/components/navbar/#placement). Possible values are `'top'`, `'bottom'`, `false`. Default is `false`.
@@ -165,12 +171,10 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
         }
 
         if ($brand) {
-            if (is_string($brand)) {
-                $brand = [
-                    'name' => $brand,
-                    'url' => '/',
-                ];
-            }
+            $brand = [
+                'name' => $brand,
+                'url' => '/',
+            ];
             $brand = $this->formatTemplate('brand', [
                 'content' => $brand['name'],
                 'url' => $this->Url->build($brand['url']),
@@ -221,19 +225,17 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
             'header' => $header,
             'responsiveStart' => $responsiveStart,
             'containerStart' => $containerStart,
-            'attrs' => $this->templater()->formatAttributes($options, ['id', 'fixed', 'collapse', 'sticky', 'theme', 'container']),
+            'attrs' => $this->templater()
+                ->formatAttributes($options, ['id', 'fixed', 'collapse', 'sticky', 'theme', 'container']),
             'templateVars' => $options['templateVars'],
         ]);
     }
 
     /**
      * Add a link to the navbar or to a menu.
-     *
      *  Encapsulate links with `beginMenu()`, `endMenu()` to create
      * a horizontal hover menu in the navbar or a dropdown menu.
-     *
      * ### Options
-     *
      * - `active` Indicates if the link is the current one. Default is automatically
      * deduced if `autoActiveLink` is on, otherwize default is `false`.
      * - `templateVars` Provide template variables for the templates.
@@ -289,9 +291,7 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
 
     /**
      * Add a divider to an inner menu of the navbar.
-     *
      * ### Options
-     *
      * - `templateVars` Provide template variables for the divider template.
      * - Other attributes will be assigned to the divider element.
      *
@@ -310,12 +310,11 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
 
     /**
      * Add a header to an inner menu of the navbar.
-     *
      * ### Options
-     *
      * - `templateVars` Provide template variables for the header template.
      * - Other attributes will be assigned to the header element.
      * *
+     *
      * @param string $name Title of the header.
      * @param array $options Array of options for the wrapper tag.
      * @return string A HTML header tag.
@@ -333,9 +332,7 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
 
     /**
      * Add a text to the navbar.
-     *
      * ### Options
-     *
      * - `templateVars` Provide template variables for the text template.
      * - Other attributes will be assigned to the text element.
      *
@@ -358,30 +355,21 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
 
     /**
      * Start a new menu.
-     *
      * Two types of menus exist:
      * - Horizontal hover menu in the navbar (level 0).
      * - Vertical dropdown menu (level 1).
      * The menu level is determined automatically: A dropdown menu needs to be part of
      * a hover menu. In the hover menu case, pass the options array as the first argument.
-     *
      * You can populate the menu with `link()`, `divider()`, and sub menus.
      * Use `'class' => 'navbar-right'` option for flush right.
-     *
      * **Note:** The `$linkOptions` and `$listOptions` parameters are not used for menu
      * at level 0 (horizontal menu).
-     *
      * ### Options
-     *
      * - `templateVars` Provide template variables for the menu template.
      * - Other attributes will be assigned to the menu element.
-     *
      * ### Link Options
-     *
      * - Other attributes will be assigned to the link element.
-     *
      * ### List Options
-     *
      * - Other attributes will be assigned to the list element.
      *
      * @param string|array|null $name Name of the menu.
@@ -420,9 +408,9 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
         $this->_level += 1;
 
         return $this->formatTemplate($template, $templateOptions + [
-            'attrs' => $this->templater()->formatAttributes($options),
-            'templateVars' => $options['templateVars'],
-        ]);
+                'attrs' => $this->templater()->formatAttributes($options),
+                'templateVars' => $options['templateVars'],
+            ]);
     }
 
     /**

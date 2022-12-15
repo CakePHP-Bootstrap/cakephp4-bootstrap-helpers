@@ -26,12 +26,14 @@ class BreadcrumbsHelper extends \Cake\View\Helper\BreadcrumbsHelper
      * @link https://api.cakephp.org/3.3/class-Cake.View.Helper.BreadcrumbsHelper.html
      */
     protected $_defaultConfig = [
+        // phpcs:disable Generic.Files.LineLength.TooLong
         'templates' => [
             'wrapper' => '<ol class="breadcrumb{{attrs.class}}"{{attrs}}>{{content}}</ol>',
             'item' => '<li class="breadcrumb-item{{attrs.class}}"{{attrs}}><a href="{{url}}"{{innerAttrs}}>{{title}}</a></li>',
             'itemWithoutLink' => '<li class="breadcrumb-item active{{attrs.class}}" aria-current="page"{{attrs}}>{{title}}</li>',
             'separator' => '',
         ],
+        // phpcs:enable
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
     ];
 }

@@ -41,6 +41,7 @@ class HtmlHelper extends \Cake\View\Helper\HtmlHelper
      * @var array
      */
     protected $_defaultConfig = [
+        // phpcs:disable Generic.Files.LineLength.TooLong
         'templates' => [
             'meta' => '<meta{{attrs}}/>',
             'metalink' => '<link href="{{url}}"{{attrs}}/>',
@@ -90,6 +91,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
             'dropdownMenuDivider' => '<div role="separator" class="dropdown-divider{{attrs.class}}"{{attrs}}></div>',
             'confirmJs' => '{{confirm}}',
         ],
+        // phpcs:enable
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
         'tooltip' => [
             'tag' => 'span',
@@ -134,7 +136,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function link($title, $url = null, array $options = []): string
     {
@@ -146,10 +148,15 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
     /**
      * Create a Twitter Bootstrap badge.
      *
-     * {@inheritDoc}
+     * @param string $text The badge text.
+     * @param string|array $type The badge type (default, primary, secondary, success, warning,
+     *                           info, danger) or the array of options (see `$options`).
+     * @param array $options Array of options. See above. Default values are retrieved
+     *                       from the configuration.
+     * @return string
      * @deprecated 4.0.0 Use the badge() instead.
      */
-    public function label($text, $type = null, $options = [])
+    public function label(string $text, $type = null, array $options = [])
     {
         deprecationWarning('HtmlHelper::label is deprecated. Use HtmlHelper::badge instead.');
 
@@ -370,7 +377,6 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
      * @param array $menu HTML tags corresponding to menu options (which will be wrapped
      *              into `<li>` tag). To add separator, pass `'divider'`.
      * @param array $options Attributes for the wrapper (change it with tag).
-     *
      * @return string
      */
     public function dropdown(array $menu = [], array $options = [])
