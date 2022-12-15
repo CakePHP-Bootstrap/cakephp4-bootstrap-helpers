@@ -25,15 +25,15 @@ class FlashHelper extends \Cake\View\Helper\FlashHelper
      *
      * @var array
      */
-    protected $_bootstrapTemplates = ['info', 'error', 'success', 'warning'];
+    protected array $_bootstrapTemplates = ['info', 'error', 'success', 'warning'];
 
     /**
      * {@inheritDoc}
      */
-    public function render($key = 'flash', array $options = [])
+    public function render(string $key = 'flash', array $options = []): ?string
     {
         if (!$this->getView()->getRequest()->getSession()->check("Flash.$key")) {
-            return;
+            return null;
         }
 
         $flash = $this->getView()->getRequest()->getSession()->read("Flash.$key");

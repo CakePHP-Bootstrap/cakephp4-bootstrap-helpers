@@ -172,7 +172,7 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 
         $params = (array)$this->params($options['model']) + ['page' => 1];
         if ($params['pageCount'] <= 1) {
-            return false;
+            return '';
         }
 
         $templater = $this->templater();
