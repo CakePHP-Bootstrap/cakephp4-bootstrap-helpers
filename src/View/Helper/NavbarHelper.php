@@ -51,6 +51,7 @@ class NavbarHelper extends Helper
      * @var array
      */
     protected $_defaultConfig = [
+        // phpcs:disable Generic.Files.LineLength.TooLong
         'templates' => [
             'navbarStart' => '<nav class="navbar{{attrs.class}}"{{attrs}}>{{containerStart}}{{header}}{{responsiveStart}}',
             'navbarEnd' => '{{responsiveEnd}}{{containerEnd}}</nav>',
@@ -86,6 +87,7 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
             'outerMenuItemLinkActive' => '<a href="{{url}}" class="nav-link{{attrs.class}}"{{attrs}}>{{content}}</a>',
             'navbarText' => '<span class="navbar-text{{attrs.class}}"{{attrs}}>{{content}}</span>',
         ],
+        // phpcs:enable
         'templateClass' => 'Bootstrap\View\EnhancedStringTemplate',
         'autoActiveLink' => true,
     ];
@@ -103,6 +105,13 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
      * @var int
      */
     protected $_level = 0;
+
+    /**
+     * Wrap the inner content in the _container or ignore if false.
+     *
+     * @var string|bool
+     */
+    protected $_container = false;
 
     /**
      * Create a new navbar.
@@ -165,12 +174,10 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
         }
 
         if ($brand) {
-            if (is_string($brand)) {
-                $brand = [
-                    'name' => $brand,
-                    'url' => '/',
-                ];
-            }
+            $brand = [
+                'name' => $brand,
+                'url' => '/',
+            ];
             $brand = $this->formatTemplate('brand', [
                 'content' => $brand['name'],
                 'url' => $this->Url->build($brand['url']),
@@ -221,7 +228,8 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
             'header' => $header,
             'responsiveStart' => $responsiveStart,
             'containerStart' => $containerStart,
-            'attrs' => $this->templater()->formatAttributes($options, ['id', 'fixed', 'collapse', 'sticky', 'theme', 'container']),
+            'attrs' => $this->templater()
+                ->formatAttributes($options, ['id', 'fixed', 'collapse', 'sticky', 'theme', 'container']),
             'templateVars' => $options['templateVars'],
         ]);
     }
@@ -316,6 +324,7 @@ aria-haspopup="true" aria-expanded="false">{{content}}</a>',
      * - `templateVars` Provide template variables for the header template.
      * - Other attributes will be assigned to the header element.
      * *
+     *
      * @param string $name Title of the header.
      * @param array $options Array of options for the wrapper tag.
      * @return string A HTML header tag.

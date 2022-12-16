@@ -192,6 +192,7 @@ class FormHelperTest extends TestCase
                 'class' => 'form-control is-invalid',
                 'name' => 'Article[title]',
                 'id' => 'article-title',
+                'aria-invalid' => 'true',
             ]],
             ['div' => [
                 'class' => 'error-message invalid-feedback',
@@ -277,7 +278,7 @@ class FormHelperTest extends TestCase
         }
         $this->form->create(null, $formOptions);
         $result = $this->form->control($fieldName, $options);
-        $assert = $this->assertHtml($expected, $result, $debug);
+        $this->assertHtml($expected, $result, $debug);
     }
 
     public function testInput()
@@ -416,6 +417,7 @@ class FormHelperTest extends TestCase
                 'name' => $fieldName,
                 'value' => '',
                 'class' => 'form-control',
+                'id' => $fieldName,
             ]],
         ];
         foreach ($options['options'] as $key => $value) {
@@ -509,6 +511,7 @@ class FormHelperTest extends TestCase
                 'name' => $fieldName,
                 'value' => '',
                 'class' => 'form-control',
+                'id' => $fieldName,
             ]],
         ];
         foreach ($options['options'] as $key => $value) {
@@ -598,7 +601,7 @@ class FormHelperTest extends TestCase
             ['input' => [
                 'type' => 'hidden',
                 'name' => $fieldName,
-                'value' => "0",
+                'value' => '0',
                 'class' => 'form-control',
             ]],
             ['label' => [
@@ -609,7 +612,7 @@ class FormHelperTest extends TestCase
                 'type' => 'checkbox',
                 'class' => 'form-check-input',
                 'name' => $fieldName,
-                'value' => "1",
+                'value' => '1',
                 'id' => $fieldName,
             ]],
             \Cake\Utility\Inflector::humanize($fieldName),
@@ -633,7 +636,7 @@ class FormHelperTest extends TestCase
             ['input' => [
                 'type' => 'hidden',
                 'name' => $fieldName,
-                'value' => "0",
+                'value' => '0',
                 'class' => 'form-control',
             ]],
             ['label' => [
@@ -644,7 +647,7 @@ class FormHelperTest extends TestCase
                 'type' => 'checkbox',
                 'class' => 'form-check-input',
                 'name' => $fieldName,
-                'value' => "1",
+                'value' => '1',
                 'id' => $fieldName,
             ]],
             \Cake\Utility\Inflector::humanize($fieldName),

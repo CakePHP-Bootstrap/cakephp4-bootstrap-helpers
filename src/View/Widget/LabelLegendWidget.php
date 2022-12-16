@@ -38,7 +38,7 @@ class LabelLegendWidget extends LabelWidget
      protected $_templateForLegend = 'labelLegend';
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function render(array $data, \Cake\View\Form\ContextInterface $context): string
     {

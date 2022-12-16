@@ -36,7 +36,6 @@ class EnhancedStringTemplate extends StringTemplate
      *
      * @param string $name The template name.
      * @param array  $data The data to insert.
-     *
      * @return string
      */
     public function format($name, array $data): string

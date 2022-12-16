@@ -75,8 +75,9 @@ class PaginatorHelperTest extends TestCase
         $this->Paginator = new PaginatorHelper($this->View);
 
         Router::reload();
-        Router::connect('/:controller/:action/*');
-        Router::connect('/:plugin/:controller/:action/*');
+        $routeBuilder = Router::createRouteBuilder('/');
+        $routeBuilder->connect('/{controller}/{action}/*');
+        $routeBuilder->connect('/{plugin}/{controller}/{action}/*');
         Router::setRequest($request);
 
         $this->locale = I18n::getLocale();
