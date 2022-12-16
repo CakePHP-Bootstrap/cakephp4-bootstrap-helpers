@@ -39,18 +39,14 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 
     /**
      * Default configuration for this class.
-     *
      * Options: Holds the default options for pagination links.
-     *
      * The values that may be specified are:
-     *
      * - `url` Url of the action. See Router::url().
      * - `url['sort']` the key that the recordset is sorted.
      * - `url['direction']` Direction of the sorting (default: 'asc').
      * - `url['page']` Page number to use in links.
      * - `model` The name of the model.
      * - `escape` Defines if the title field for the link should be escaped (default: true).
-     *
      * Templates: the templates used by this class.
      *
      * @var array
@@ -112,22 +108,19 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
         }
         $end = min($params['pageCount'], $end);
         $start = max(1, $start);
+
         return [$start, $end];
     }
 
     /**
      * Returns a set of numbers for the paged result set using a modulus to decide how
      * many numbers to show on each side of the current page (default: 8).
-     *
      * ```
      * $this->Paginator->numbers(['first' => 2, 'last' => 2]);
      * ```
-     *
      * Using the first and last options you can create links to the beginning and end of
      * the page set.
-     *
      * ### Options
-     *
      * - `before` Content to be inserted before the numbers, but after the first links.
      * - `after` Content to be inserted after the numbers, but before the last links.
      * - `model` Model to create numbers for, defaults to PaginatorHelper::defaultModel()
@@ -145,7 +138,6 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
      * you'd like to use when generating the numbers. The helper's original templates will
      * be restored once numbers() is done.
      * - `url` An array of additional URL options to use for link generation.
-     *
      * The generated number links will include the 'ellipsis' template when the `first` and
      * `last` options and the number of pages exceed the modulus. For example if you have 25
      * pages, and use the first/last options and a modulus of 8, ellipsis content will be
@@ -256,9 +248,7 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 
     /**
      * Generates a "previous" link for a set of paged records.
-     *
      * ### Options:
-     *
      * - `disabledTitle` The text to used when the link is disabled. This
      *   defaults to the same text at the active link. Setting to false will cause
      *   this method to return ''.
@@ -283,9 +273,7 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 
     /**
      * Generates a "next" link for a set of paged records.
-     *
      * ### Options:
-     *
      * - `disabledTitle` The text to used when the link is disabled. This
      *   defaults to the same text at the active link. Setting to false will cause
      *   this method to return ''.
@@ -310,30 +298,24 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 
     /**
      * Returns a first or set of numbers for the first pages.
-     *
      * ```
      * echo $this->Paginator->first('< first');
      * ```
-     *
      * Creates a single link for the first page. Will output nothing if you are on the
      * first page.
-     *
      * ```
      * echo $this->Paginator->first(3);
      * ```
-     *
      * Will create links for the first 3 pages, once you get to the third or greater page.
      * Prior to that nothing will be output.
-     *
      * ### Options:
-     *
      * - `model` The model to use defaults to PaginatorHelper::defaultModel()
      * - `escape` Whether or not to HTML escape the text.
      * - `url` An array of additional URL options to use for link generation.
      *
-     * @param string|int $first   if string use as label for the link. If numeric, the number
+     * @param string|int $first if string use as label for the link. If numeric, the number
      * of page links you want at the beginning of the range.
-     * @param array      $options An array of options.
+     * @param array $options An array of options.
      * @return string numbers string.
      * @link http://book.cakephp.org/3.0/en/views/helpers/paginator.html#creating-jump-links
      */
@@ -346,30 +328,24 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 
     /**
      * Returns a last or set of numbers for the last pages.
-     *
      * ```
      * echo $this->Paginator->last('last >');
      * ```
-     *
      * Creates a single link for the last page. Will output nothing if you are on the
      * last page.
-     *
      * ```
      * echo $this->Paginator->last(3);
      * ```
-     *
      * Will create links for the last 3 pages. Once you enter the page range, no output
      * will be created.
-     *
      * ### Options:
-     *
      * - `model` The model to use defaults to PaginatorHelper::defaultModel()
      * - `escape` Whether or not to HTML escape the text.
      * - `url` An array of additional URL options to use for link generation.
      *
-     * @param string|int $last    if string use as label for the link, if numeric print
+     * @param string|int $last if string use as label for the link, if numeric print
      * page numbers.
-     * @param array      $options Array of options.
+     * @param array $options Array of options.
      * @return string numbers string.
      * @link http://book.cakephp.org/3.0/en/views/helpers/paginator.html#creating-jump-links
      */

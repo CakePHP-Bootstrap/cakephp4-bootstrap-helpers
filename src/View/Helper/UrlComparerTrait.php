@@ -90,7 +90,7 @@ trait UrlComparerTrait
     /**
      * Remove relative part an URL (if any).
      *
-     * @param   string $url URL from which the relative part should be removed.
+     * @param string $url URL from which the relative part should be removed.
      * @return  string The new URL.
      */
     protected function _removeRelative(string $url): string

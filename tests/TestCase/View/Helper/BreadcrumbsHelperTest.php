@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -53,16 +52,18 @@ class BreadcrumbsHelperTest extends TestCase
             ->add('Some text', ['controller' => 'tests_apps', 'action' => 'some_method'])
             ->add('Final crumb', null, [
                 'class' => 'final',
-                'innerAttrs' => ['class' => 'final-link']
+                'innerAttrs' => ['class' => 'final-link'],
             ]);
         $result = $this->breadcrumbs->render(
             ['data-stuff' => 'foo and bar']
         );
         $expected = [
-            ['ol' => [
-                'class' => 'breadcrumb',
-                'data-stuff' => 'foo and bar'
-            ]],
+            [
+                'ol' => [
+                    'class' => 'breadcrumb',
+                    'data-stuff' => 'foo and bar',
+                ],
+            ],
             ['li' => ['class' => 'first']],
             ['a' => ['href' => '/', 'data-foo' => 'bar']],
             'Home',
@@ -76,8 +77,8 @@ class BreadcrumbsHelperTest extends TestCase
             ['li' => ['class' => 'active final']],
             'Final crumb',
             '/li',
-            '/ol'
+            '/ol',
         ];
         $this->assertHtml($expected, $result);
     }
-};
+}

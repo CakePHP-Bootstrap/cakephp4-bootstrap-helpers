@@ -13,10 +13,7 @@ declare(strict_types=1);
 namespace Bootstrap\Test\TestCase\View\Helper;
 
 use Bootstrap\TestApp\PublicUrlComparerTrait;
-use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
-use Cake\Routing\Route\DashedRoute;
-use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 
@@ -45,7 +42,7 @@ class UrlComparerTraitTest extends TestCase
                 'action' => 'view',
                 'plugin' => null,
                 'controller' => 'pages',
-                'pass' => ['1']
+                'pass' => ['1'],
             ],
             'url' => '/pages/view/1',
             'base' => '/cakephp',
@@ -64,7 +61,7 @@ class UrlComparerTraitTest extends TestCase
         foreach ($tests as $test) {
             [$lhs, $rhs] = $test;
             $nm = $this->trait->normalize($lhs, ['pass' => false]);
-            $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
+            $this->assertTrue($nm == $rhs, sprintf('%s is not normalized as %s but %s.', $lhs, $rhs, $nm));
         }
         $tests = [
             ['/pages', '/pages/display'],
@@ -106,7 +103,7 @@ class UrlComparerTraitTest extends TestCase
         foreach ($tests as $test) {
             [$lhs, $rhs] = $test;
             $nm = $this->trait->normalize($lhs, ['pass' => false]);
-            $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
+            $this->assertTrue($nm == $rhs, sprintf('%s is not normalized as %s but %s.', $lhs, $rhs, $nm));
         }
     }
 
@@ -121,7 +118,7 @@ class UrlComparerTraitTest extends TestCase
         foreach ($tests as $test) {
             [$lhs, $rhs] = $test;
             $nm = $this->trait->normalize($lhs);
-            $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
+            $this->assertTrue($nm == $rhs, sprintf('%s is not normalized as %s but %s.', $lhs, $rhs, $nm));
         }
         $tests = [
             ['/pages', '/pages/display'],
@@ -162,7 +159,7 @@ class UrlComparerTraitTest extends TestCase
         foreach ($tests as $test) {
             [$lhs, $rhs] = $test;
             $nm = $this->trait->normalize($lhs);
-            $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
+            $this->assertTrue($nm == $rhs, sprintf('%s is not normalized as %s but %s.', $lhs, $rhs, $nm));
         }
     }
 

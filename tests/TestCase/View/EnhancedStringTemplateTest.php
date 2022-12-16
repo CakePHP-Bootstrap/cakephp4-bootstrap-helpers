@@ -47,10 +47,12 @@ class EnhancedStringTemplateTest extends TestCase
             'content' => 'Hello World!',
         ]);
         $this->assertHtml([
-            ['p' => [
-                'id' => 'test-id',
-                'class' => 'test-class',
-            ]],
+            [
+                'p' => [
+                    'id' => 'test-id',
+                    'class' => 'test-class',
+                ],
+            ],
             'Hello World!',
             '/p',
         ], $result);
@@ -60,10 +62,12 @@ class EnhancedStringTemplateTest extends TestCase
             'content' => 'Hello World!',
         ]);
         $this->assertHtml([
-            ['p' => [
-                'id' => 'test-id',
-                'class' => 'test-class test-class-2',
-            ]],
+            [
+                'p' => [
+                    'id' => 'test-id',
+                    'class' => 'test-class test-class-2',
+                ],
+            ],
             'Hello World!',
             '/p',
         ], $result);
@@ -73,10 +77,12 @@ class EnhancedStringTemplateTest extends TestCase
             'content' => 'Hello World!',
         ]);
         $this->assertHtml([
-            ['p' => [
-                'id' => 'test-id',
-                'class' => 'test-class test-class-2',
-            ]],
+            [
+                'p' => [
+                    'id' => 'test-id',
+                    'class' => 'test-class test-class-2',
+                ],
+            ],
             'Hello World!',
             '/p',
         ], $result);

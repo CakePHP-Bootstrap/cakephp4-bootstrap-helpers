@@ -8,7 +8,7 @@
 /vendor
 /tmp
 *.mo
-.phpunit.result.cache
+/.phpunit.result.cache
 
 # IDE and editor specific files #
 #################################
