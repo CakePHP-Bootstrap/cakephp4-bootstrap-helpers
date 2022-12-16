@@ -1,13 +1,12 @@
 <?php
+declare(strict_types=1);
+
 /**
- *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE file
  * Redistributions of files must retain the above copyright notice.
  * You may obtain a copy of the License at
- *
  *     https://opensource.org/licenses/mit-license.php
- *
  *
  * @copyright Copyright (c) Mikaël Capelle (https://typename.fr)
  * @license https://opensource.org/licenses/mit-license.php MIT License
@@ -18,13 +17,12 @@ use Cake\View\Widget\RadioWidget;
 
 /**
  * Input widget class for generating a set of inline radio buttons.
- *
  * This class is intended as an internal implementation detail
  * of Cake\View\Helper\BootstrapFormHelper and is not intended for direct use.
  */
-class InlineRadioWidget extends RadioWidget {
-
-   /**
+class InlineRadioWidget extends RadioWidget
+{
+    /**
      * Renders a single radio input and label.
      *
      * @param string|int $val The value of the radio input.
@@ -33,7 +31,8 @@ class InlineRadioWidget extends RadioWidget {
      * @param \Cake\View\Form\ContextInterface $context The form context
      * @return string
      */
-    protected function _renderInput($val, $text, $data, $context): string {
+    protected function _renderInput($val, $text, $data, $context): string
+    {
         $escape = $data['escape'];
         if (is_int($val) && isset($text['text'], $text['value'])) {
             $radio = $text;
@@ -70,7 +69,15 @@ class InlineRadioWidget extends RadioWidget {
             'name' => $radio['name'],
             'value' => $escape ? h($radio['value']) : $radio['value'],
             'templateVars' => $radio['templateVars'],
-            'attrs' => $this->_templates->formatAttributes($radio + $data, ['name', 'value', 'text', 'options', 'label', 'val', 'type']),
+            'attrs' => $this->_templates->formatAttributes($radio + $data, [
+                'name',
+                'value',
+                'text',
+                'options',
+                'label',
+                'val',
+                'type',
+            ]),
         ]);
         $label = $this->_renderLabel(
             $radio,
@@ -79,16 +86,17 @@ class InlineRadioWidget extends RadioWidget {
             $context,
             $escape
         );
-        if ($label === false &&
+        if (
+            $label === false &&
             strpos($this->_templates->get('inlineRadioWrapper'), '{{input}}') === false
         ) {
             $label = $input;
         }
+
         return $this->_templates->format('inlineRadioWrapper', [
             'input' => $input,
             'label' => $label,
             'templateVars' => $data['templateVars'],
         ]);
     }
-
-};
+}

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -15,10 +14,7 @@ declare(strict_types=1);
 namespace Bootstrap\Test\TestCase\View\Helper;
 
 use Bootstrap\View\Helper\NavbarHelper;
-use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
-use Cake\Routing\Route\DashedRoute;
-use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
@@ -56,21 +52,27 @@ class NavbarHelperTest extends TestCase
         // Test default:
         $result = $this->navbar->create(null);
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-default'
-            ]],
-            ['div' => [
-                'class' => 'container'
-            ]],
-            ['div' => [
-                'class' => 'navbar-header'
-            ]],
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-default',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'navbar-header',
+                ],
+            ],
             'button' => [
                 'type' => 'button',
                 'class' => 'navbar-toggle collapsed',
                 'data-toggle' => 'collapse',
                 'data-target' => '#navbar',
-                'aria-expanded' => 'false'
+                'aria-expanded' => 'false',
             ],
             ['span' => ['class' => 'sr-only']], __('Toggle navigation'), '/span',
             ['span' => ['class' => 'icon-bar']], '/span',
@@ -78,41 +80,55 @@ class NavbarHelperTest extends TestCase
             ['span' => ['class' => 'icon-bar']], '/span',
             '/button',
             '/div',
-            ['div' => [
-                'class' => 'collapse navbar-collapse',
-                'id' => 'navbar'
-            ]]
+            [
+                'div' => [
+                    'class' => 'collapse navbar-collapse',
+                    'id' => 'navbar',
+                ],
+            ],
         ];
         $this->assertHtml($expected, $result);
 
         // Test non responsive:
         $result = $this->navbar->create(null, ['responsive' => false]);
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-default'
-            ]],
-            ['div' => [
-                'class' => 'container'
-            ]]
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-default',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container',
+                ],
+            ],
         ];
         $this->assertHtml($expected, $result);
 
         // Test brand and non responsive:
         $result = $this->navbar->create('Brandname', ['responsive' => false]);
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-default'
-            ]],
-            ['div' => [
-                'class' => 'container'
-            ]],
-            ['div' => [
-                'class' => 'navbar-header'
-            ]],
-            ['a' => [
-                'class' => 'navbar-brand',
-                'href' => '/',
-            ]], 'Brandname', '/a',
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-default',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'navbar-header',
+                ],
+            ],
+            [
+                'a' => [
+                    'class' => 'navbar-brand',
+                    'href' => '/',
+                ],
+            ], 'Brandname', '/a',
             '/div',
         ];
         $this->assertHtml($expected, $result);
@@ -120,72 +136,94 @@ class NavbarHelperTest extends TestCase
         // Test brand and responsive:
         $result = $this->navbar->create('Brandname');
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-default'
-            ]],
-            ['div' => [
-                'class' => 'container'
-            ]],
-            ['div' => [
-                'class' => 'navbar-header'
-            ]],
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-default',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'navbar-header',
+                ],
+            ],
             'button' => [
                 'type' => 'button',
                 'class' => 'navbar-toggle collapsed',
                 'data-toggle' => 'collapse',
                 'data-target' => '#navbar',
-                'aria-expanded' => 'false'
+                'aria-expanded' => 'false',
             ],
             ['span' => ['class' => 'sr-only']], __('Toggle navigation'), '/span',
             ['span' => ['class' => 'icon-bar']], '/span',
             ['span' => ['class' => 'icon-bar']], '/span',
             ['span' => ['class' => 'icon-bar']], '/span',
             '/button',
-            ['a' => [
-                'class' => 'navbar-brand',
-                'href' => '/',
-            ]], 'Brandname', '/a',
+            [
+                'a' => [
+                    'class' => 'navbar-brand',
+                    'href' => '/',
+                ],
+            ], 'Brandname', '/a',
             '/div',
-            ['div' => [
-                'class' => 'collapse navbar-collapse',
-                'id' => 'navbar'
-            ]]
+            [
+                'div' => [
+                    'class' => 'collapse navbar-collapse',
+                    'id' => 'navbar',
+                ],
+            ],
         ];
         $this->assertHtml($expected, $result);
 
         // Test fluid
         $result = $this->navbar->create(null, ['fluid' => true, 'responsive' => false]);
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-default'
-            ]],
-            ['div' => [
-                'class' => 'container-fluid'
-            ]]
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-default',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container-fluid',
+                ],
+            ],
         ];
         $this->assertHtml($expected, $result);
 
         // Test inverted
         $result = $this->navbar->create(null, ['inverse' => true, 'responsive' => false]);
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-inverse'
-            ]],
-            ['div' => [
-                'class' => 'container'
-            ]]
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-inverse',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container',
+                ],
+            ],
         ];
         $this->assertHtml($expected, $result);
 
         // Test static
         $result = $this->navbar->create(null, ['static' => true, 'responsive' => false]);
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-default navbar-static-top'
-            ]],
-            ['div' => [
-                'class' => 'container'
-            ]]
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-default navbar-static-top',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container',
+                ],
+            ],
         ];
 
         $this->assertHtml($expected, $result);
@@ -193,24 +231,32 @@ class NavbarHelperTest extends TestCase
         // Test fixed top
         $result = $this->navbar->create(null, ['fixed' => 'top', 'responsive' => false]);
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-default navbar-fixed-top'
-            ]],
-            ['div' => [
-                'class' => 'container'
-            ]]
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-default navbar-fixed-top',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container',
+                ],
+            ],
         ];
         $this->assertHtml($expected, $result);
 
         // Test fixed bottom
         $result = $this->navbar->create(null, ['fixed' => 'bottom', 'responsive' => false]);
         $expected = [
-            ['nav' => [
-                'class' => 'navbar navbar-default navbar-fixed-bottom'
-            ]],
-            ['div' => [
-                'class' => 'container'
-            ]]
+            [
+                'nav' => [
+                    'class' => 'navbar navbar-default navbar-fixed-bottom',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'container',
+                ],
+            ],
         ];
         $this->assertHtml($expected, $result);
     }
@@ -235,17 +281,19 @@ class NavbarHelperTest extends TestCase
         $result = $this->navbar->button('Click Me!');
         $expected = [
             ['button' => ['class' => 'navbar-btn btn btn-default', 'type' => 'button']],
-            'Click Me!', '/button'
+            'Click Me!', '/button',
         ];
         $this->assertHtml($expected, $result);
 
         $result = $this->navbar->button('Click Me!', ['class' => 'my-class', 'href' => '/']);
         $expected = [
-            ['button' => [
-                'class' => 'my-class navbar-btn btn btn-default',
-                'href' => '/', 'type' => 'button'
-            ]],
-            'Click Me!', '/button'
+            [
+                'button' => [
+                    'class' => 'my-class navbar-btn btn btn-default',
+                    'href' => '/', 'type' => 'button',
+                ],
+            ],
+            'Click Me!', '/button',
         ];
         $this->assertHtml($expected, $result);
     }
@@ -257,7 +305,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['p' => ['class' => 'navbar-text']],
             'Some text',
-            '/p'
+            '/p',
         ];
         $this->assertHtml($expected, $result);
 
@@ -266,7 +314,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['p' => ['class' => 'navbar-text my-class']],
             'Some text',
-            '/p'
+            '/p',
         ];
         $this->assertHtml($expected, $result);
 
@@ -275,7 +323,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['p' => ['class' => 'navbar-text']],
             'Some text with a <a href="/" class="navbar-link">link</a>.',
-            '/p'
+            '/p',
         ];
         $this->assertHtml($expected, $result);
 
@@ -285,7 +333,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['p' => ['class' => 'navbar-text']],
             'Some text with a <a href="/" class="my-class navbar-link">link</a>.',
-            '/p'
+            '/p',
         ];
         $this->assertHtml($expected, $result);
     }
@@ -316,11 +364,13 @@ class NavbarHelperTest extends TestCase
             ['li' => []],
             ['a' => ['href' => '/pages/test']], 'Blog', '/a', '/li',
             ['li' => ['class' => 'dropdown']],
-            ['a' => [
-                'href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown',
-                'role' => 'button', 'aria-haspopup' => 'true',
-                'aria-expanded' => 'false'
-            ]],
+            [
+                'a' => [
+                    'href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown',
+                    'role' => 'button', 'aria-haspopup' => 'true',
+                    'aria-expanded' => 'false',
+                ],
+            ],
             'Dropdown',
             ['span' => ['class' => 'caret']], '/span', '/a',
             ['ul' => ['class' => 'dropdown-menu']],
@@ -333,10 +383,9 @@ class NavbarHelperTest extends TestCase
             ['li' => []], ['a' => ['href' => '/']], 'Another action', '/a', '/li',
             '/ul',
             '/li',
-            '/ul'
+            '/ul',
         ];
         $this->assertHtml($expected, $result, true);
-
         // TODO: Add more tests...
     }
 
@@ -351,7 +400,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['li' => ['class' => 'active']],
             ['a' => ['href' => '/']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
 
@@ -361,7 +410,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['li' => ['class' => 'active']],
             ['a' => ['href' => '/pages']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
 
@@ -371,7 +420,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['li' => []],
             ['a' => ['href' => '/']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
 
@@ -381,7 +430,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['li' => []],
             ['a' => ['href' => '/pages']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
 
@@ -393,19 +442,19 @@ class NavbarHelperTest extends TestCase
                 'action' => 'view',
                 'plugin' => null,
                 'controller' => 'pages',
-                'pass' => ['1']
+                'pass' => ['1'],
             ])
             ->withAttribute('base', '/cakephp');
         Router::setRequest($request);
 
         $this->navbar->setConfig('autoActiveLink', true);
         $result = $this->navbar->link('Link', '/pages', [
-            'active' => ['action' => false, 'pass' => false]
+            'active' => ['action' => false, 'pass' => false],
         ]);
         $expected = [
             ['li' => ['class' => 'active']],
             ['a' => ['href' => '/cakephp/pages']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
 
@@ -413,7 +462,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['li' => ['class' => 'active']],
             ['a' => ['href' => '/cakephp/pages']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
 
@@ -424,19 +473,19 @@ class NavbarHelperTest extends TestCase
                 'action' => 'display',
                 'plugin' => null,
                 'controller' => 'pages',
-                'pass' => ['faq']
+                'pass' => ['faq'],
             ])
             ->withAttribute('base', '/cakephp');
         Router::setRequest($request);
 
         $this->navbar->setConfig('autoActiveLink', true);
         $result = $this->navbar->link('Link', '/pages', [
-            'active' => ['action' => false, 'pass' => false]
+            'active' => ['action' => false, 'pass' => false],
         ]);
         $expected = [
             ['li' => ['class' => 'active']],
             ['a' => ['href' => '/cakephp/pages']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
 
@@ -444,7 +493,7 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['li' => []],
             ['a' => ['href' => '/cakephp/pages/credits']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
 
@@ -452,8 +501,8 @@ class NavbarHelperTest extends TestCase
         $expected = [
             ['li' => ['class' => 'active']],
             ['a' => ['href' => '/cakephp/pages/faq']], 'Link', '/a',
-            '/li'
+            '/li',
         ];
         $this->assertHtml($expected, $result);
     }
-};
+}

@@ -1,35 +1,32 @@
 <?php
+declare(strict_types=1);
+
 /**
- *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE file
  * Redistributions of files must retain the above copyright notice.
  * You may obtain a copy of the License at
- *
  *     https://opensource.org/licenses/mit-license.php
- *
  *
  * @copyright Copyright (c) Mikaël Capelle (https://typename.fr)
  * @license https://opensource.org/licenses/mit-license.php MIT License
  */
 namespace Bootstrap\View\Widget;
 
+use Cake\View\Form\ContextInterface;
 use Cake\View\Widget\SelectBoxWidget;
 
 /**
  * Form 'widget' for creating select box in bootstrap columns.
- *
  * Generally this element is used by other widgets,
  * and FormHelper itself.
  */
-class ColumnSelectBoxWidget extends SelectBoxWidget {
-
+class ColumnSelectBoxWidget extends SelectBoxWidget
+{
     /**
      * Render a select box form input inside a column.
-     *
      * Render a select box input given a set of data. Supported keys
      * are:
-     *
      * - `name` - Set the input name.
      * - `options` - An array of options.
      * - `disabled` - Either true or an array of options to disable.
@@ -40,9 +37,7 @@ class ColumnSelectBoxWidget extends SelectBoxWidget {
      *   empty option. If an array is used the key will set the value of the empty
      *   option while, the value will set the display text.
      * - `escape` - Set to false to disable HTML escaping.
-     *
      * ### Options format
-     *
      * See `Cake\View\Widget\SelectBoxWidget::render()` methods.
      *
      * @param array $data Data to render with.
@@ -50,7 +45,7 @@ class ColumnSelectBoxWidget extends SelectBoxWidget {
      * @return string A generated select box.
      * @throws \RuntimeException when the name attribute is empty.
      */
-    public function render(array $data, \Cake\View\Form\ContextInterface $context): string
+    public function render(array $data, ContextInterface $context): string
     {
         $data += [
             'name' => '',
@@ -59,7 +54,7 @@ class ColumnSelectBoxWidget extends SelectBoxWidget {
             'options' => [],
             'disabled' => null,
             'val' => null,
-            'templateVars' => []
+            'templateVars' => [],
         ];
         $options = $this->_renderContent($data);
         $name = $data['name'];
@@ -67,6 +62,7 @@ class ColumnSelectBoxWidget extends SelectBoxWidget {
         if (isset($data['disabled']) && is_array($data['disabled'])) {
             unset($data['disabled']);
         }
+
         return $this->_templates->format('selectColumn', [
             'name' => $name,
             'templateVars' => $data['templateVars'],
@@ -74,4 +70,4 @@ class ColumnSelectBoxWidget extends SelectBoxWidget {
             'content' => implode('', $options),
         ]);
     }
-};
+}

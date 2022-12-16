@@ -1,25 +1,23 @@
 <?php
+declare(strict_types=1);
+
 /**
- *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE file
  * Redistributions of files must retain the above copyright notice.
  * You may obtain a copy of the License at
- *
  *     https://opensource.org/licenses/mit-license.php
- *
  *
  * @copyright Copyright (c) Mikaël Capelle (https://typename.fr)
  * @license https://opensource.org/licenses/mit-license.php MIT License
  */
 namespace Bootstrap\Utility;
 
-
 /**
  * A class that providing stacking states.
  */
-class StackedStates {
-
+class StackedStates
+{
     /**
      * Default values for a new state.
      *
@@ -38,9 +36,9 @@ class StackedStates {
      * Construct a new StackState with the given default values.
      *
      * @param mixed $defaults Default values for the states.
-     *
      */
-    public function __construct($defaults = []) {
+    public function __construct($defaults = [])
+    {
         $this->_defaults = $defaults;
     }
 
@@ -49,7 +47,8 @@ class StackedStates {
      *
      * @return bool true if the stack is empty (i.e. contains no states).
      */
-    public function isEmpty() {
+    public function isEmpty()
+    {
         return empty($this->_states);
     }
 
@@ -58,7 +57,8 @@ class StackedStates {
      *
      * @return mixed An array [type, state] containing the removed state.
      */
-    public function pop() {
+    public function pop()
+    {
         return array_pop($this->_states);
     }
 
@@ -67,14 +67,15 @@ class StackedStates {
      * ones.
      *
      * @param string $type Type of the new state.
-     * @param mixed $sate New state.
-     *
+     * @param mixed $state New state.
+     * @return void
      */
-    public function push($type, $state = []) {
+    public function push(string $type, $state = [])
+    {
         if (isset($this->_defaults[$type])) {
             $state = array_merge($this->_defaults[$type], $state);
         }
-        array_push($this->_states, [$type, $state]);
+        $this->_states[] = [$type, $state];
     }
 
     /**
@@ -82,17 +83,18 @@ class StackedStates {
      *
      * @return string Type of the current state.
      */
-    public function type() {
+    public function type()
+    {
         return end($this->_states)[0];
     }
-
 
     /**
      * Return the current state.
      *
      * @return mixed Current values of the state.
      */
-    public function current() {
+    public function current()
+    {
         return end($this->_states)[1];
     }
 
@@ -101,8 +103,10 @@ class StackedStates {
      *
      * @param mixed $name Name of the attribute to set.
      * @param mixed $value New value for the attribute.
+     * @return void
      */
-    public function setValue($name, $value) {
+    public function setValue($name, $value)
+    {
         $this->_states[count($this->_states) - 1][1][$name] = $value;
     }
 
@@ -110,10 +114,10 @@ class StackedStates {
      * Get a value from the current state.
      *
      * @param mixed $name Name of the attribute to retrieve.
-     *
      * @return mixed Value retrieved from the current state.
      */
-    public function getValue($name) {
+    public function getValue($name)
+    {
         return end($this->_states)[1][$name];
     }
 
@@ -121,13 +125,16 @@ class StackedStates {
      * Check if the current state is of the given type. If there is no
      * current state, this function returns false.
      *
+     * @param string $type Stacked state.
      * @return bool true if the current state is of the given type,
-    *      false if the types do not match or if there is no current state.
+     *      false if the types do not match or if there is no current state.
      */
-    public function is($type) {
+    public function is(string $type)
+    {
         if (empty($this->_states)) {
             return false;
         }
+
         return $this->type() == $type;
     }
-};
+}

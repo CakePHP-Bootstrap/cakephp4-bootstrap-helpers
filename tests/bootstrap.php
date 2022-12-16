@@ -1,11 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
@@ -15,6 +13,7 @@ declare(strict_types=1);
  */
 
 use Cake\Cache\Cache;
+use Cake\Core\ClassLoader;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Utility\Security;
@@ -36,7 +35,7 @@ define('CONFIG', APP . 'config' . DS);
 define('CACHE', TMP);
 define('LOGS', TMP);
 
-$loader = new \Cake\Core\ClassLoader();
+$loader = new ClassLoader();
 $loader->register();
 
 $loader->addNamespace('TestApp', APP);

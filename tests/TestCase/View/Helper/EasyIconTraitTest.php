@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -73,10 +72,14 @@ class EasyIconTraitTest extends TestCase
         $converted = false;
 
         $this->assertHtml(
-            [['i' => [
-                'class' => 'glyphicon glyphicon-plus',
-                'aria-hidden' => 'true'
-            ]], '/i'],
+            [
+                [
+                    'i' => [
+                        'class' => 'glyphicon glyphicon-plus',
+                        'aria-hidden' => 'true',
+                    ],
+                ], '/i',
+            ],
             $this->trait->publicMakeIcon('i:plus', $converted)
         );
         $this->assertTrue($converted);
@@ -84,16 +87,24 @@ class EasyIconTraitTest extends TestCase
         $this->assertHtml(['Click Me!'], $this->trait->publicMakeIcon('Click Me!', $converted));
         $this->assertFalse($converted);
 
-        $this->assertHtml([['i' => [
-            'class' => 'glyphicon glyphicon-plus',
-            'aria-hidden' => 'true'
-        ]], '/i', ' Add'], $this->trait->publicMakeIcon('i:plus Add', $converted));
+        $this->assertHtml([
+            [
+                'i' => [
+                    'class' => 'glyphicon glyphicon-plus',
+                    'aria-hidden' => 'true',
+                ],
+            ], '/i', ' Add',
+        ], $this->trait->publicMakeIcon('i:plus Add', $converted));
         $this->assertTrue($converted);
 
-        $this->assertHtml(['Add ', ['i' => [
-            'class' => 'glyphicon glyphicon-plus',
-            'aria-hidden' => 'true'
-        ]], '/i'], $this->trait->publicMakeIcon('Add i:plus', $converted));
+        $this->assertHtml([
+            'Add ', [
+                'i' => [
+                    'class' => 'glyphicon glyphicon-plus',
+                    'aria-hidden' => 'true',
+                ],
+            ], '/i',
+        ], $this->trait->publicMakeIcon('Add i:plus', $converted));
         $this->assertTrue($converted);
 
         $this->trait->easyIcon = false;
@@ -103,48 +114,56 @@ class EasyIconTraitTest extends TestCase
 
     public function testHtmlHelperMethods()
     {
-
         // BootstrapHtmlHelper
         $result = $this->html->link('i:dashboard Dashboard', '/dashboard');
         $this->assertHtml([
-            ['a' => [
-                'href' => '/dashboard'
-            ]],
-            ['i' => [
-                'class' => 'glyphicon glyphicon-dashboard',
-                'aria-hidden' => 'true'
-            ]], '/i', 'Dashboard', '/a'
+            [
+                'a' => [
+                    'href' => '/dashboard',
+                ],
+            ],
+            [
+                'i' => [
+                    'class' => 'glyphicon glyphicon-dashboard',
+                    'aria-hidden' => 'true',
+                ],
+            ], '/i', 'Dashboard', '/a',
         ], $result);
 
         // BootstrapHtmlHelper
         $result = $this->html->link('i:dashboard Dashboard', '/dashboard', [
-            'easyIcon' => false
+            'easyIcon' => false,
         ]);
         $this->assertHtml([
-            ['a' => [
-                'href' => '/dashboard'
-            ]],
-            'i:dashboard Dashboard', '/a'
+            [
+                'a' => [
+                    'href' => '/dashboard',
+                ],
+            ],
+            'i:dashboard Dashboard', '/a',
         ], $result);
 
         // BootstrapHtmlHelper
         $result = $this->html->link('i:dashboard <script>Dashboard</script>', '/dashboard', [
-            'easyIcon' => true
+            'easyIcon' => true,
         ]);
         $this->assertHtml([
-            ['a' => [
-                'href' => '/dashboard'
-            ]],
-            ['i' => [
-                'class' => 'glyphicon glyphicon-dashboard',
-                'aria-hidden' => 'true'
-            ]], '/i', '&lt;script&gt;Dashboard&lt;/script&gt;', '/a'
+            [
+                'a' => [
+                    'href' => '/dashboard',
+                ],
+            ],
+            [
+                'i' => [
+                    'class' => 'glyphicon glyphicon-dashboard',
+                    'aria-hidden' => 'true',
+                ],
+            ], '/i', '&lt;script&gt;Dashboard&lt;/script&gt;', '/a',
         ], $result);
     }
 
     public function testPaginatorHelperMethods()
     {
-
         // BootstrapPaginatorHelper - TODO
         // BootstrapPaginatorHelper::prev($title, array $options = []);
         // BootstrapPaginatorHelper::next($title, array $options = []);
@@ -154,56 +173,73 @@ class EasyIconTraitTest extends TestCase
 
     public function testFormHelperMethod()
     {
-
         // BootstrapFormHelper
         $result = $this->form->button('i:plus');
         $this->assertHtml([
-            ['button' => [
-                'class' => 'btn btn-default',
-                'type'  => 'submit'
-            ]], ['i' => [
-                'class' => 'glyphicon glyphicon-plus',
-                'aria-hidden' => 'true'
-            ]], '/i', '/button'
+            [
+                'button' => [
+                    'class' => 'btn btn-default',
+                    'type' => 'submit',
+                ],
+            ], [
+                'i' => [
+                    'class' => 'glyphicon glyphicon-plus',
+                    'aria-hidden' => 'true',
+                ],
+            ], '/i', '/button',
         ], $result);
         $result = $this->form->control('fieldname', [
             'prepend' => 'i:home',
-            'append'  => 'i:plus',
-            'label'   => false
+            'append' => 'i:plus',
+            'label' => false,
         ]);
         $this->assertHtml([
-            ['div' => [
-                'class' => 'form-group text'
-            ]],
-            ['div' => [
-                'class' => 'input-group'
-            ]],
-            ['span' => [
-                'class' => 'input-group-addon'
-            ]],
-            ['i' => [
-                'class' => 'glyphicon glyphicon-home',
-                'aria-hidden' => 'true'
-            ]], '/i',
+            [
+                'div' => [
+                    'class' => 'form-group text',
+                ],
+            ],
+            [
+                'div' => [
+                    'class' => 'input-group',
+                ],
+            ],
+            [
+                'span' => [
+                    'class' => 'input-group-addon',
+                ],
+            ],
+            [
+                'i' => [
+                    'class' => 'glyphicon glyphicon-home',
+                    'aria-hidden' => 'true',
+                ],
+            ], '/i',
             '/span',
-            ['input' => [
-                'type' => 'text',
-                'class' => 'form-control',
-                'name' => 'fieldname',
-                'id' => 'fieldname'
-            ]],
-            ['span' => [
-                'class' => 'input-group-addon'
-            ]],
-            ['i' => [
-                'class' => 'glyphicon glyphicon-plus',
-                'aria-hidden' => 'true'
-            ]], '/i',
+            [
+                'input' => [
+                    'type' => 'text',
+                    'class' => 'form-control',
+                    'name' => 'fieldname',
+                    'id' => 'fieldname',
+                ],
+            ],
+            [
+                'span' => [
+                    'class' => 'input-group-addon',
+                ],
+            ],
+            [
+                'i' => [
+                    'class' => 'glyphicon glyphicon-plus',
+                    'aria-hidden' => 'true',
+                ],
+            ], '/i',
             '/span',
             '/div',
-            '/div'
+            '/div',
         ], $result);
         //BootstrapFormHelper::prepend($input, $prepend); // For $prepend.
         //BootstrapFormHelper::append($input, $append); // For $append.
     }
-};
+}

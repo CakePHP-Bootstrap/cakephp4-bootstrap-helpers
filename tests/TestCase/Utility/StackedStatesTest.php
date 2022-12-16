@@ -17,12 +17,12 @@ use Cake\TestSuite\TestCase;
 
 class StackedStatesTest extends TestCase
 {
-     /**
-      * Instance of StackedStates.
-      *
-      * @var StackedStates
-      */
-     public $states;
+    /**
+     * Instance of StackedStates.
+     *
+     * @var StackedStates
+     */
+    public $states;
 
     /**
      * Setup
