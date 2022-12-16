@@ -415,6 +415,18 @@ class FormHelperTest extends TestCase
                 'green' => 'Green',
             ],
         ];
+
+        // Cakephp <= 4.3
+        $input = [
+            'type' => 'hidden',
+            'name' => $fieldName,
+            'value' => '',
+            'class' => 'form-control',
+        ];
+        if (version_compare(Configure::version(), '4.4.0') >= 0) {
+            $input['id'] = $fieldName;
+        }
+
         // Default
         $expected = [
             [
@@ -430,13 +442,7 @@ class FormHelperTest extends TestCase
             Inflector::humanize($fieldName),
             '/label',
             [
-                'input' => [
-                    'type' => 'hidden',
-                    'name' => $fieldName,
-                    'value' => '',
-                    'class' => 'form-control',
-                    'id' => $fieldName,
-                ],
+                'input' => $input,
             ],
         ];
         foreach ($options['options'] as $key => $value) {
@@ -539,13 +545,7 @@ class FormHelperTest extends TestCase
                 ],
             ],
             [
-                'input' => [
-                    'type' => 'hidden',
-                    'name' => $fieldName,
-                    'value' => '',
-                    'class' => 'form-control',
-                    'id' => $fieldName,
-                ],
+                'input' => $input,
             ],
         ];
         foreach ($options['options'] as $key => $value) {
