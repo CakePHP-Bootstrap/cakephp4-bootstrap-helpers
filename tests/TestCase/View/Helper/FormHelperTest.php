@@ -435,6 +435,7 @@ class FormHelperTest extends TestCase
                     'name' => $fieldName,
                     'value' => '',
                     'class' => 'form-control',
+                    'id' => $fieldName,
                 ],
             ],
         ];
@@ -543,6 +544,7 @@ class FormHelperTest extends TestCase
                     'name' => $fieldName,
                     'value' => '',
                     'class' => 'form-control',
+                    'id' => $fieldName,
                 ],
             ],
         ];
