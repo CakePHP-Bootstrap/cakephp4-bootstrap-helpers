@@ -52,7 +52,7 @@ $this->loadHelper('Html', [
   - when adding a `link()` to an inner menu, the `$linkOptions` parameters is not usable anymore and the
   `$options` parameters should be used directly (their are no wrapping `<li>` anymore for inner menu).
 
-The full plugin documentation is available at https://holt59.github.io/cakephp3-bootstrap-helpers/.
+The full plugin documentation is available at https://cakephp-bootstrap.github.io/cakephp3-bootstrap-helpers/.
 
 #### Table of version and requirements
 
