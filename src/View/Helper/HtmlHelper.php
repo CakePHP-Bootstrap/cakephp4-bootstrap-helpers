@@ -106,6 +106,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
         'progress' => [
             'type' => 'primary',
         ],
+				'font' => self::FONT_AWESOME,
     ];
 
     public const FONT_GLYPHICON        = 'glyphicon';
@@ -168,7 +169,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
     public function icon(string $icon, array $options = []): string
     {
         $options += [
-            'font' => self::FONT_AWESOME,
+            'font' => $this->getConfig('font'),
             'templateVars' => [],
         ];
 

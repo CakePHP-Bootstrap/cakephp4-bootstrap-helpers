@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Bootstrap\Test\TestCase\View\Helper;
 
+use Bootstrap\View\Helper\HtmlHelper;
 use Bootstrap\View\Helper\PanelHelper;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
@@ -40,7 +41,8 @@ class PanelHelperTest extends TestCase
         parent::setUp();
         $view = new View();
         $view->loadHelper('Html', [
-            'className' => 'Bootstrap.Html'
+            'className' => 'Bootstrap.Html',
+						'font' => HtmlHelper::FONT_GLYPHICON,
         ]);
         $this->panel = new PanelHelper($view);
         Configure::write('debug', true);
@@ -168,7 +170,7 @@ class PanelHelperTest extends TestCase
                 'class' => 'panel-title'
             ]],
             ['i' => [
-                'class' => 'fa fa-home',
+                'class' => 'glyphicon glyphicon-home',
                 'aria-hidden' => 'true'
             ]], '/i', ' Home',
             '/h4',
@@ -251,7 +253,7 @@ class PanelHelperTest extends TestCase
                 'aria-controls' => 'collapse-6'
             ]],
             ['i' => [
-                'class' => 'fa fa-home',
+                'class' => 'glyphicon glyphicon-home',
                 'aria-hidden' => 'true'
             ]], '/i', ' Home',
             '/a',
