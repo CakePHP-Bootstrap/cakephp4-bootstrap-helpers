@@ -42,7 +42,7 @@ class PanelHelperTest extends TestCase
         $view = new View();
         $view->loadHelper('Html', [
             'className' => 'Bootstrap.Html',
-						'font' => HtmlHelper::FONT_GLYPHICON,
+            'font' => HtmlHelper::FONT_GLYPHICON,
         ]);
         $this->panel = new PanelHelper($view);
         Configure::write('debug', true);
