@@ -106,7 +106,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
         'progress' => [
             'type' => 'primary',
         ],
-				'font' => self::FONT_AWESOME,
+        'font' => self::FONT_AWESOME,
     ];
 
     public const FONT_GLYPHICON        = 'glyphicon';
@@ -174,8 +174,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
         ];
 
         $options['templateVars']['tag'] = $options['tag'] ?? 'i';
-        $options['templateVars']['font'] = self::ICON_FONTS[$options['font']] ?? self::ICON_FONTS[self::FONT_GLYPHICON];
-
+        $options['templateVars']['font'] = self::ICON_FONTS[$options['font']] ?? self::ICON_FONTS[self::FONT_AWESOME];
 
         unset($options['tag']);
         unset($options['font']);
