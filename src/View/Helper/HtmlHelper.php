@@ -110,6 +110,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
     ];
 
     public const FONT_GLYPHICON        = 'glyphicon';
+    public const FONT_BOOTSTRAP        = 'bi';
     public const FONT_AWESOME          = 'fa';
     public const FONT_AWESOME5_SOLID   = 'fas';
     public const FONT_AWESOME5_REGULAR = 'far';
@@ -125,6 +126,7 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
 
     protected const ICON_FONTS = [
         self::FONT_GLYPHICON        => 'glyphicon glyphicon-',
+        self::FONT_BOOTSTRAP        => 'bi bi-',
         self::FONT_AWESOME          => 'fa fa-',
         self::FONT_AWESOME5_SOLID   => 'fas fa-',
         self::FONT_AWESOME5_REGULAR => 'far fa-',
