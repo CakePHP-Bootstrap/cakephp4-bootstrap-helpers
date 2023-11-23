@@ -58,7 +58,7 @@ The full plugin documentation is available at https://cakephp-bootstrap.github.i
 
 | Version | Bootstrap version | CakePHP version | Information |
 |---------|-------------------|-----------------|-------------|
-| [master](https://github.com/Holt59/cakephp3-bootstrap-helpers/tree/master) | 3 | >= 3.7.0 | Current active V3 branch. |
+| [master](https://github.com/Holt59/cakephp3-bootstrap-helpers/tree/master) | 4 | >= 3.7.0 | Current active V4 branch. |
 | [4.0.3](https://github.com/Holt59/cakephp3-bootstrap-helpers/tree/v4.0.3) | 4 | >= 3.7.0 | Current active V4 branch. |
 | [4.0.2](https://github.com/Holt59/cakephp3-bootstrap-helpers/tree/v4.0.2) | 4 | >= 3.7.0 | Latest V4 release. |
 | [3.1.4](https://github.com/Holt59/cakephp3-bootstrap-helpers/tree/v3.1.2) | 3 | >= 3.7.0 | Open issue(s) if necessary. |
