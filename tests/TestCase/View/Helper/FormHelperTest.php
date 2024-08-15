@@ -192,6 +192,7 @@ class FormHelperTest extends TestCase
                 'class' => 'form-control is-invalid',
                 'name' => 'Article[title]',
                 'id' => 'article-title',
+                'aria-invalid' => 'true',
             ]],
             ['div' => [
                 'class' => 'error-message invalid-feedback',

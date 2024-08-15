@@ -30,10 +30,10 @@ class FlashHelper extends \Cake\View\Helper\FlashHelper
     /**
      * {@inheritDoc}
      */
-    public function render($key = 'flash', array $options = [])
+    public function render($key = 'flash', array $options = []): ?string
     {
         if (!$this->getView()->getRequest()->getSession()->check("Flash.$key")) {
-            return;
+            return null;
         }
 
         $flash = $this->getView()->getRequest()->getSession()->read("Flash.$key");

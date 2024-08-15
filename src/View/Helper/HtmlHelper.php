@@ -72,7 +72,7 @@ class HtmlHelper extends \Cake\View\Helper\HtmlHelper
             'javascriptend' => '</script>',
 
             // New templates for Bootstrap
-            'icon' => '<i aria-hidden="true" class="fa fa-{{type}}{{attrs.class}}"{{attrs}}></i>',
+            'icon' => '<{{tag}} aria-hidden="true" class="{{font}}{{type}}{{attrs.class}}"{{attrs}}></{{tag}}>',
             'badge' => '<span class="badge badge-{{type}}{{attrs.class}}"{{attrs}}>{{content}}</span>',
             'alert' => '<div class="alert alert-{{type}}{{attrs.class}}" role="alert"{{attrs}}>{{close}}{{content}}</div>',
             'alertCloseButton' =>
@@ -106,6 +106,39 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
         'progress' => [
             'type' => 'primary',
         ],
+        'font' => self::FONT_AWESOME,
+    ];
+
+    public const FONT_GLYPHICON        = 'glyphicon';
+    public const FONT_BOOTSTRAP        = 'bi';
+    public const FONT_AWESOME          = 'fa';
+    public const FONT_AWESOME5_SOLID   = 'fas';
+    public const FONT_AWESOME5_REGULAR = 'far';
+    public const FONT_AWESOME5_LIGHT   = 'fal';
+    public const FONT_AWESOME5_DUOTONE = 'fad';
+    public const FONT_AWESOME5_BRAND   = 'fab';
+    public const FONT_AWESOME6_SOLID   = 'fa-solid';
+    public const FONT_AWESOME6_REGULAR = 'fa-regular';
+    public const FONT_AWESOME6_LIGHT   = 'fa-light';
+    public const FONT_AWESOME6_DUOTONE = 'fa-duotone';
+    public const FONT_AWESOME6_THIN    = 'fa-thin';
+    public const FONT_AWESOME6_BRAND   = 'fa-brands';
+
+    protected const ICON_FONTS = [
+        self::FONT_GLYPHICON        => 'glyphicon glyphicon-',
+        self::FONT_BOOTSTRAP        => 'bi bi-',
+        self::FONT_AWESOME          => 'fa fa-',
+        self::FONT_AWESOME5_SOLID   => 'fas fa-',
+        self::FONT_AWESOME5_REGULAR => 'far fa-',
+        self::FONT_AWESOME5_LIGHT   => 'fal fa-',
+        self::FONT_AWESOME5_DUOTONE => 'fad fa-',
+        self::FONT_AWESOME5_BRAND   => 'fab fa-',
+        self::FONT_AWESOME6_SOLID   => 'fa-solid fa-',
+        self::FONT_AWESOME6_REGULAR => 'fa-regular fa-',
+        self::FONT_AWESOME6_LIGHT   => 'fa-light fa-',
+        self::FONT_AWESOME6_DUOTONE => 'fa-duotone fa-',
+        self::FONT_AWESOME6_THIN    => 'fa-thin fa-',
+        self::FONT_AWESOME6_BRAND   => 'fa-brands fa-',
     ];
 
     /**
@@ -118,13 +151,35 @@ aria-valuenow="{{width}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}" style=
      *
      * @param string $icon Name of the icon.
      * @param array $options Array of options. See above.
-     * @return string The HTML icon.
+     * @param string $opcions['tag'] Tag use for the icon, "i" for default
+     * @param string $opcions['font'] Font of the icon:
+     * - HtmlHelper::FONT_GLYPHICON        for default Twitter Bootstrap icon.
+     * - HtmlHelper::FONT_AWESOME          for Font Awesome icon.
+     * - HtmlHelper::FONT_AWESOME5_SOLID   for Font Awesome 5 Solid icon.
+     * - HtmlHelper::FONT_AWESOME5_REGULAR for Font Awesome 5 Regular icon.
+     * - HtmlHelper::FONT_AWESOME5_LIGHT   for Font Awesome 5 Light icon.
+     * - HtmlHelper::FONT_AWESOME5_DUOTONE for Font Awesome 5 Duotone icon.
+     * - HtmlHelper::FONT_AWESOME5_BRAND   for Font Awesome 5 Brand icon.
+     * - HtmlHelper::FONT_AWESOME6_SOLID   for Font Awesome 6 Solid icon.
+     * - HtmlHelper::FONT_AWESOME6_REGULAR for Font Awesome 6 Regular icon.
+     * - HtmlHelper::FONT_AWESOME6_LIGHT   for Font Awesome 6 Light icon.
+     * - HtmlHelper::FONT_AWESOME6_DUOTONE for Font Awesome 6 Duotone icon.
+     * - HtmlHelper::FONT_AWESOME6_THIN    for Font Awesome 6 Thin icon.
+     * - HtmlHelper::FONT_AWESOME6_BRAND   for Font Awesome 6 Brand icon.
+		 * @return string The HTML icon.
      */
     public function icon(string $icon, array $options = []): string
     {
         $options += [
+            'font' => $this->getConfig('font'),
             'templateVars' => [],
         ];
+
+        $options['templateVars']['tag'] = $options['tag'] ?? 'i';
+        $options['templateVars']['font'] = self::ICON_FONTS[$options['font']] ?? self::ICON_FONTS[self::FONT_AWESOME];
+
+        unset($options['tag']);
+        unset($options['font']);
 
         return $this->formatTemplate('icon', [
             'type' => $icon,
